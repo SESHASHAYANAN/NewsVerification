@@ -1,0 +1,4159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The New York Times International</title>
+    <link
+      rel="icon"
+      href="https://www.nytimes.com/favicon.ico"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
+    <style>
+      /* Font imports */
+      @font-face {
+        font-family: "NYT Cheltenham";
+        src: url("https://cdn.jsdelivr.net/gh/FrancesCoronel/nyt-comm@master/fonts/cheltenham/cheltenham-normal-300.woff2")
+          format("woff2");
+        font-weight: 300;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "NYT Cheltenham";
+        src: url("https://cdn.jsdelivr.net/gh/FrancesCoronel/nyt-comm@master/fonts/cheltenham/cheltenham-normal-500.woff2")
+          format("woff2");
+        font-weight: 500;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "NYT Cheltenham";
+        src: url("https://cdn.jsdelivr.net/gh/FrancesCoronel/nyt-comm@master/fonts/cheltenham/cheltenham-normal-700.woff2")
+          format("woff2");
+        font-weight: 700;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "NYT Franklin";
+        src: url("https://cdn.jsdelivr.net/gh/FrancesCoronel/nyt-comm@master/fonts/franklin/franklin-normal-500.woff2")
+          format("woff2");
+        font-weight: 500;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "NYT Franklin";
+        src: url("https://cdn.jsdelivr.net/gh/FrancesCoronel/nyt-comm@master/fonts/franklin/franklin-normal-700.woff2")
+          format("woff2");
+        font-weight: 700;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "NYT Imperial";
+        src: url("https://cdn.jsdelivr.net/gh/FrancesCoronel/nyt-comm@master/fonts/imperial/imperial-normal-400.woff2")
+          format("woff2");
+        font-weight: 400;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "NYT Imperial";
+        src: url("https://cdn.jsdelivr.net/gh/FrancesCoronel/nyt-comm@master/fonts/imperial/imperial-normal-500.woff2")
+          format("woff2");
+        font-weight: 500;
+        font-style: normal;
+      }
+
+      /* NYT Custom CSS */
+      :root {
+        --color-black: #000000;
+        --color-dark-gray: #333333;
+        --color-medium-gray: #666666;
+        --color-light-gray: #e2e2e2;
+        --color-lighter-gray: #f7f7f7;
+        --color-white: #ffffff;
+        --color-blue: #326891;
+        --color-red: #d0021b;
+      }
+
+      body {
+        font-family: "NYT Imperial", Georgia, serif;
+        color: var(--color-black);
+        line-height: 1.5;
+        margin: 0;
+        padding: 0;
+        background-color: var(--color-white);
+      }
+
+      .nyt-logo {
+        font-family: "Old English Text MT", "Times New Roman", serif;
+        font-weight: normal;
+        letter-spacing: -0.5px;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "NYT Cheltenham", Georgia, serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .headline-lg {
+        font-family: "NYT Cheltenham", Georgia, serif;
+        font-weight: 700;
+        font-size: 2.5rem;
+        line-height: 1.1;
+        margin-bottom: 0.5rem;
+      }
+
+      .headline-md {
+        font-family: "NYT Cheltenham", Georgia, serif;
+        font-weight: 500;
+        font-size: 1.75rem;
+        line-height: 1.2;
+        margin-bottom: 0.5rem;
+      }
+
+      .headline-sm {
+        font-family: "NYT Cheltenham", Georgia, serif;
+        font-weight: 500;
+        font-size: 1.25rem;
+        line-height: 1.2;
+        margin-bottom: 0.25rem;
+      }
+
+      .nav-text {
+        font-family: "NYT Franklin", Helvetica, Arial, sans-serif;
+        font-weight: 500;
+        font-size: 0.875rem;
+        letter-spacing: 0.02em;
+      }
+
+      .byline {
+        font-family: "NYT Franklin", Helvetica, Arial, sans-serif;
+        font-size: 0.875rem;
+        color: var(--color-medium-gray);
+        margin-bottom: 0.5rem;
+      }
+
+      .summary {
+        font-family: "NYT Imperial", Georgia, serif;
+        font-size: 1.125rem;
+        line-height: 1.4;
+        margin-bottom: 1rem;
+        color: var(--color-dark-gray);
+      }
+
+      .article-content {
+        font-family: "NYT Imperial", Georgia, serif;
+        font-size: 1.125rem;
+        line-height: 1.6;
+        color: var(--color-dark-gray);
+        max-width: 600px;
+      }
+
+      .border-top-light {
+        border-top: 1px solid var(--color-light-gray);
+      }
+
+      .border-bottom-light {
+        border-bottom: 1px solid var(--color-light-gray);
+      }
+
+      .section-label {
+        font-family: "NYT Franklin", Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--color-medium-gray);
+        margin-bottom: 0.5rem;
+      }
+
+      .nav-item {
+        font-family: "NYT Franklin", Helvetica, Arial, sans-serif;
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+        color: var(--color-black);
+        text-decoration: none;
+        display: inline-block;
+        cursor: pointer;
+      }
+
+      .nav-item:hover {
+        background-color: var(--color-lighter-gray);
+      }
+
+      .nav-item.active {
+        font-weight: bold;
+        background-color: var(--color-lighter-gray);
+      }
+
+      .button-subscribe {
+        font-family: "NYT Franklin", Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        font-size: 0.875rem;
+        color: var(--color-white);
+        background-color: var(--color-blue);
+        border: none;
+        padding: 0.75rem 1rem;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      .button-subscribe:hover {
+        background-color: #1a4b76;
+      }
+
+      .button-login {
+        font-family: "NYT Franklin", Helvetica, Arial, sans-serif;
+        font-weight: 500;
+        font-size: 0.875rem;
+        color: var(--color-black);
+        background-color: transparent;
+        border: 1px solid var(--color-light-gray);
+        padding: 0.75rem 1rem;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      .button-login:hover {
+        background-color: var(--color-lighter-gray);
+      }
+
+      .time-stamp {
+        font-family: "NYT Franklin", Helvetica, Arial, sans-serif;
+        font-size: 0.75rem;
+        color: var(--color-medium-gray);
+      }
+
+      .footer-link {
+        font-family: "NYT Franklin", Helvetica, Arial, sans-serif;
+        font-size: 0.875rem;
+        color: var(--color-medium-gray);
+        text-decoration: none;
+        margin-right: 1.5rem;
+        display: inline-block;
+      }
+
+      .footer-link:hover {
+        text-decoration: underline;
+      }
+
+      .footer-heading {
+        font-family: "NYT Franklin", Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        font-size: 0.875rem;
+        color: var(--color-black);
+        margin-bottom: 1rem;
+      }
+
+      /* Grid system */
+      .nyt-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+
+      .nyt-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-gap: 20px;
+      }
+
+      .col-span-1 {
+        grid-column: span 1;
+      }
+      .col-span-2 {
+        grid-column: span 2;
+      }
+      .col-span-3 {
+        grid-column: span 3;
+      }
+      .col-span-4 {
+        grid-column: span 4;
+      }
+      .col-span-5 {
+        grid-column: span 5;
+      }
+      .col-span-6 {
+        grid-column: span 6;
+      }
+      .col-span-7 {
+        grid-column: span 7;
+      }
+      .col-span-8 {
+        grid-column: span 8;
+      }
+      .col-span-9 {
+        grid-column: span 9;
+      }
+      .col-span-10 {
+        grid-column: span 10;
+      }
+      .col-span-11 {
+        grid-column: span 11;
+      }
+      .col-span-12 {
+        grid-column: span 12;
+      }
+
+      .hamburger-menu {
+        cursor: pointer;
+        width: 18px;
+        height: 14px;
+        position: relative;
+      }
+
+      .hamburger-menu span {
+        display: block;
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        background: var(--color-black);
+        opacity: 1;
+        left: 0;
+      }
+
+      .hamburger-menu span:nth-child(1) {
+        top: 0;
+      }
+      .hamburger-menu span:nth-child(2) {
+        top: 6px;
+      }
+      .hamburger-menu span:nth-child(3) {
+        top: 12px;
+      }
+
+      .search-icon {
+        cursor: pointer;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 50;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 300px;
+        height: 100%;
+        background-color: var(--color-white);
+        transition: left 0.3s ease;
+        z-index: 100;
+        overflow-y: auto;
+      }
+
+      .sidebar.open {
+        left: 0;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      .weather-widget {
+        font-family: "NYT Franklin", Helvetica, Arial, sans-serif;
+        font-size: 0.75rem;
+        color: var(--color-medium-gray);
+        display: flex;
+        align-items: center;
+      }
+
+      .weather-temp {
+        font-weight: 700;
+        margin-left: 0.25rem;
+      }
+
+      /* Main story image */
+      .main-image {
+        width: 100%;
+        height: auto;
+        margin-bottom: 1rem;
+      }
+
+      /* News Verification Popup Styles */
+      .verify-button {
+        font-family: "NYT Franklin", Helvetica, Arial, sans-serif;
+        font-size: 0.875rem;
+        color: var(--color-blue);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        margin-right: 10px;
+        text-decoration: underline;
+      }
+
+      .verify-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 500px;
+        background-color: var(--color-white);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 200;
+        display: none;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .verify-popup-header {
+        background-color: var(--color-black);
+        color: var(--color-white);
+        padding: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .verify-popup-title {
+        font-family: "NYT Cheltenham", Georgia, serif;
+        font-weight: 500;
+        font-size: 1.25rem;
+        margin: 0;
+      }
+
+      .verify-popup-close {
+        background: none;
+        border: none;
+        color: var(--color-white);
+        font-size: 1.25rem;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      .verify-popup-content {
+        padding: 20px;
+      }
+
+      .verify-form {
+        margin-bottom: 20px;
+      }
+
+      .verify-input {
+        width: 100%;
+        padding: 12px;
+        font-family: "NYT Franklin", Helvetica, Arial, sans-serif;
+        font-size: 1rem;
+        border: 1px solid var(--color-light-gray);
+        border-radius: 3px;
+        margin-bottom: 10px;
+      }
+
+      .verify-button-submit {
+        font-family: "NYT Franklin", Helvetica, Arial, sans-serif;
+        font-weight: 500;
+        font-size: 1rem;
+        color: var(--color-white);
+        background-color: var(--color-black);
+        border: none;
+        padding: 12px 20px;
+        border-radius: 3px;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      .verify-button-submit:hover {
+        background-color: #333;
+      }
+
+      .verify-result {
+        font-family: "NYT Imperial", Georgia, serif;
+        font-size: 1rem;
+        line-height: 1.5;
+        padding: 15px;
+        max-height: 300px;
+        overflow-y: auto;
+        border: 1px solid var(--color-light-gray);
+        border-radius: 3px;
+        display: none;
+      }
+
+      .verify-indicator {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .verify-text {
+        margin-top: 10px;
+      }
+
+      .verify-sources {
+        margin-top: 15px;
+        font-size: 0.875rem;
+        font-style: italic;
+        color: var(--color-medium-gray);
+      }
+
+      .verify-loader {
+        display: none;
+        text-align: center;
+        padding: 20px 0;
+      }
+
+      .verify-loader::after {
+        content: "";
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid var(--color-blue);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Category content sections */
+      .category-content {
+        display: none;
+      }
+
+      .category-content.active {
+        display: block;
+      }
+
+      /* Style adjustments for single-page PDF export */
+      @media print {
+        body {
+          width: 100%;
+          margin: 0;
+          padding: 0;
+        }
+
+        .nyt-container {
+          max-width: none;
+          width: 100%;
+        }
+
+        .sidebar,
+        .overlay,
+        .hamburger-menu,
+        .search-icon,
+        .button-subscribe,
+        .button-login,
+        .verify-button,
+        .verify-popup {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Overlay for sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar navigation -->
+    <div class="sidebar" id="sidebar">
+      <button class="close-btn" id="close-sidebar">&times;</button>
+      <div class="p-5">
+        <h2 class="footer-heading mb-4">SECTIONS</h2>
+        <div class="border-bottom-light py-2">
+          <a href="#" class="nav-item block py-2">Home Page</a>
+          <a href="#" class="nav-item block py-2" data-category="world"
+            >World</a
+          >
+          <a href="#" class="nav-item block py-2" data-category="us">U.S.</a>
+          <a href="#" class="nav-item block py-2" data-category="politics"
+            >Politics</a
+          >
+          <a href="#" class="nav-item block py-2">N.Y.</a>
+          <a href="#" class="nav-item block py-2" data-category="business"
+            >Business</a
+          >
+          <a href="#" class="nav-item block py-2" data-category="opinion"
+            >Opinion</a
+          >
+          <a href="#" class="nav-item block py-2" data-category="tech">Tech</a>
+          <a href="#" class="nav-item block py-2" data-category="science"
+            >Science</a
+          >
+          <a href="#" class="nav-item block py-2" data-category="health"
+            >Health</a
+          >
+          <a href="#" class="nav-item block py-2" data-category="sports"
+            >Sports</a
+          >
+          <a href="#" class="nav-item block py-2" data-category="arts">Arts</a>
+          <a href="#" class="nav-item block py-2" data-category="books"
+            >Books</a
+          >
+          <a href="#" class="nav-item block py-2" data-category="style"
+            >Style</a
+          >
+          <a href="#" class="nav-item block py-2" data-category="food">Food</a>
+          <a href="#" class="nav-item block py-2" data-category="travel"
+            >Travel</a
+          >
+          <a href="#" class="nav-item block py-2">Magazine</a>
+          <a href="#" class="nav-item block py-2">T Magazine</a>
+          <a href="#" class="nav-item block py-2">Real Estate</a>
+          <a href="#" class="nav-item block py-2">Video</a>
+        </div>
+
+        <h2 class="footer-heading mb-4 mt-6">MORE</h2>
+        <div class="border-bottom-light py-2">
+          <a href="#" class="nav-item block py-2">Reader Center</a>
+          <a href="#" class="nav-item block py-2">Wirecutter</a>
+          <a href="#" class="nav-item block py-2">Cooking</a>
+          <a href="#" class="nav-item block py-2">Live Events</a>
+          <a href="#" class="nav-item block py-2">The Athletic</a>
+          <a href="#" class="nav-item block py-2">Games</a>
+          <a href="#" class="nav-item block py-2">Newsletters</a>
+          <a href="#" class="nav-item block py-2">Podcasts</a>
+          <a href="#" class="nav-item block py-2">Video</a>
+          <a href="#" class="nav-item block py-2">Graphics</a>
+          <a href="#" class="nav-item block py-2">TimesMachine</a>
+          <a href="#" class="nav-item block py-2">NYT Store</a>
+          <a href="#" class="nav-item block py-2">Manage My Account</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- News Verification Popup -->
+    <div class="verify-popup" id="verify-popup">
+      <div class="verify-popup-header">
+        <h3 class="verify-popup-title">Verify News</h3>
+        <button class="verify-popup-close" id="verify-popup-close">
+          &times;
+        </button>
+      </div>
+      <div class="verify-popup-content">
+        <form id="verify-form" class="verify-form">
+          <input
+            type="text"
+            id="verify-input"
+            class="verify-input"
+            placeholder="Ask about any current news..."
+            autocomplete="off"
+          />
+          <button type="submit" class="verify-button-submit">Verify</button>
+        </form>
+        <div id="verify-loader" class="verify-loader"></div>
+        <div id="verify-result" class="verify-result">
+          <div id="verify-indicator" class="verify-indicator"></div>
+          <div id="verify-text" class="verify-text"></div>
+          <div id="verify-sources" class="verify-sources"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top header with date and user actions -->
+    <header class="border-bottom-light">
+      <div class="nyt-container">
+        <div class="flex justify-between items-center py-2">
+          <div class="flex items-center">
+            <div class="hamburger-menu mr-4" id="hamburger-menu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="search-icon mr-4">
+              <svg
+                width="16"
+                height="16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.5 14.793l-4.5-4.5a6 6 0 10-2.207 1.707l4.5 4.5a1 1 0 001.414-1.414zM1.5 6.5a5 5 0 1110 0 5 5 0 01-10 0z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+            <div class="time-stamp" id="current-date"></div>
+          </div>
+          <div class="flex items-center">
+            <button id="verify-button" class="verify-button">
+              Verify News
+            </button>
+            <div class="weather-widget mr-6">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                  fill="currentColor"
+                />
+              </svg>
+              <span class="weather-temp">65°F</span>
+            </div>
+            <button class="button-login mr-2">Log in</button>
+            <button class="button-subscribe">Subscribe for $1/week</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Masthead with logo -->
+    <div class="py-3 text-center border-bottom-light">
+      <h1 class="nyt-logo text-7xl">The New York Times</h1>
+      <div class="text-sm mt-1 text-gray-600">International Edition</div>
+    </div>
+
+    <!-- Main navigation -->
+    <nav class="border-bottom-light">
+      <div class="nyt-container">
+        <div
+          class="flex justify-between overflow-x-auto whitespace-nowrap py-2"
+        >
+          <a href="#" class="nav-item" data-category="home">Home</a>
+          <a href="#" class="nav-item" data-category="world">World</a>
+          <a href="#" class="nav-item" data-category="us">U.S.</a>
+          <a href="#" class="nav-item" data-category="politics">Politics</a>
+          <a href="#" class="nav-item" data-category="business">Business</a>
+          <a href="#" class="nav-item" data-category="opinion">Opinion</a>
+          <a href="#" class="nav-item" data-category="tech">Tech</a>
+          <a href="#" class="nav-item" data-category="science">Science</a>
+          <a href="#" class="nav-item" data-category="health">Health</a>
+          <a href="#" class="nav-item" data-category="sports">Sports</a>
+          <a href="#" class="nav-item" data-category="arts">Arts</a>
+          <a href="#" class="nav-item" data-category="books">Books</a>
+          <a href="#" class="nav-item" data-category="style">Style</a>
+          <a href="#" class="nav-item" data-category="food">Food</a>
+          <a href="#" class="nav-item" data-category="travel">Travel</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="py-6">
+      <div class="nyt-container">
+        <!-- Home content (default) -->
+        <div id="home-content" class="category-content active">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">VATICAN</div>
+              <h1 class="headline-lg">
+                Pope Francis Addresses Global Leaders on Climate Change Crisis
+              </h1>
+              <p class="summary">
+                In a landmark address delivered to world leaders gathered at the
+                Vatican, Pope Francis renewed his urgent call for immediate
+                action on climate change, describing it as "a moral imperative"
+                that transcends political and economic interests.
+              </p>
+              <p class="byline">By ELIZABETH DIAS and MATTHEW MPOKE BIGG</p>
+              <img
+                src="https://static01.nyt.com/images/2024/04/21/multimedia/21pope-climate-jfkt/21pope-climate-jfkt-superJumbo.jpg"
+                alt="Pope Francis speaking to world leaders at the Vatican"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  VATICAN CITY — Pope Francis on Monday delivered one of his
+                  most forceful addresses on climate change, telling world
+                  leaders gathered at the Vatican that the global environmental
+                  crisis represents "the most pressing moral challenge of our
+                  time."
+                </p>
+                <p>
+                  The pontiff, who has made environmental advocacy a cornerstone
+                  of his papacy, warned that "time is running out" and called
+                  for immediate reductions in carbon emissions and substantial
+                  investment in renewable energy sources.
+                </p>
+                <p>
+                  "We cannot continue to prioritize economic growth and material
+                  consumption at the expense of our common home," Francis said,
+                  echoing themes from his influential 2015 encyclical "Laudato
+                  Si" on environmental stewardship.
+                </p>
+                <p>
+                  The gathering, which included heads of state and
+                  representatives from over 40 countries, aims to build momentum
+                  ahead of the United Nations Climate Change Conference
+                  scheduled for November.
+                </p>
+                <p>
+                  Environmental experts praised the pope's intervention, noting
+                  his unique moral authority that transcends political
+                  divisions. "Pope Francis bridges religious and secular
+                  discourse in a way few global leaders can," said Dr. Maria
+                  Gonzalez, director of the Climate Ethics Institute.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">INTERNATIONAL</div>
+                <h2 class="headline-md">
+                  Global Markets React to Economic Data from China
+                </h2>
+                <p class="byline">By MICHAEL GOLDSTEIN</p>
+                <p>
+                  Markets across Asia and Europe showed volatility on Monday as
+                  investors processed new economic indicators from China
+                  suggesting a slowdown in manufacturing growth.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">POLITICS</div>
+                <h2 class="headline-md">
+                  Lawmakers Prepare for Budget Showdown
+                </h2>
+                <p class="byline">By SARAH THOMPSON</p>
+                <p>
+                  Congressional leaders from both parties are preparing for a
+                  contentious budget negotiation as the fiscal deadline
+                  approaches, with key differences remaining on defense spending
+                  and social programs.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">TECHNOLOGY</div>
+                <h2 class="headline-md">
+                  New AI Regulations Proposed in European Parliament
+                </h2>
+                <p class="byline">By THOMAS WEBER</p>
+                <p>
+                  The European Parliament is set to vote on comprehensive
+                  regulations for artificial intelligence systems, aiming to
+                  establish global standards for ethical AI development and
+                  deployment.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">HEALTH</div>
+                <h2 class="headline-sm">
+                  Global Health Organization Warns of New Respiratory Virus
+                </h2>
+                <p class="byline">By JENNIFER PARKER</p>
+                <p>
+                  Health officials are monitoring a newly identified respiratory
+                  virus in Southeast Asia, though experts emphasize that current
+                  risk to the global population remains low.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">BUSINESS</div>
+                <h2 class="headline-sm">
+                  Electric Vehicle Market Faces Supply Chain Challenges
+                </h2>
+                <p class="byline">By ROBERT ZHANG</p>
+                <p>
+                  Major automakers are reporting significant disruptions in
+                  battery component supply chains, potentially delaying the
+                  production targets for new electric vehicle models.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">ARTS</div>
+                <h2 class="headline-sm">
+                  Venice Biennale Opens with Record Attendance
+                </h2>
+                <p class="byline">By CLAUDIA MORRISON</p>
+                <p>
+                  The 2025 Venice Biennale has opened with record attendance,
+                  featuring works from 91 countries addressing themes of climate
+                  change, migration, and digital identity.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Opinion section -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <h3 class="section-label text-xl mb-4">Opinion</h3>
+            </div>
+
+            <div class="col-span-3">
+              <div class="pb-6 mb-6">
+                <h3 class="headline-sm">
+                  The Climate Crisis Requires a New Economic Model
+                </h3>
+                <p class="byline">By PAUL KRUGMAN</p>
+                <p>
+                  Our current economic systems are not equipped to address the
+                  scale and urgency of climate change. We need fundamental
+                  restructuring.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-3">
+              <div class="pb-6 mb-6">
+                <h3 class="headline-sm">
+                  Digital Privacy in an Age of Surveillance
+                </h3>
+                <p class="byline">By MICHELLE GOLDBERG</p>
+                <p>
+                  As surveillance technologies become more sophisticated, we
+                  must establish stronger protections for individual privacy and
+                  civil liberties.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-3">
+              <div class="pb-6 mb-6">
+                <h3 class="headline-sm">
+                  A New Framework for International Diplomacy
+                </h3>
+                <p class="byline">By THOMAS L. FRIEDMAN</p>
+                <p>
+                  The multilateral institutions created after World War II are
+                  showing their age. It's time to reimagine global governance
+                  for the 21st century.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-3">
+              <div class="pb-6 mb-6">
+                <h3 class="headline-sm">
+                  Education Reform Must Focus on Teachers
+                </h3>
+                <p class="byline">By NICHOLAS KRISTOF</p>
+                <p>
+                  Any meaningful education reform must begin with recruiting,
+                  training, and appropriately compensating excellent teachers.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More news grid -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-6">
+              <div class="pb-6 mb-6">
+                <div class="section-label">SCIENCE</div>
+                <h2 class="headline-md">
+                  NASA Announces New Mission to Study Exoplanets
+                </h2>
+                <p class="byline">By CAROLINE WINTERS</p>
+                <img
+                  src="https://static01.nyt.com/images/2024/04/21/multimedia/21nasa-exoplanet-fjtr/21nasa-exoplanet-fjtr-superJumbo.jpg"
+                  alt="NASA telescope visualization"
+                  class="w-full h-auto mb-3"
+                />
+                <p>
+                  NASA has announced a new $1.2 billion mission that will launch
+                  a specialized telescope designed to study potentially
+                  habitable exoplanets orbiting nearby stars, scheduled for
+                  deployment in 2028.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-6">
+              <div class="pb-6 mb-6">
+                <div class="section-label">SPORTS</div>
+                <h2 class="headline-md">
+                  Olympic Committee Finalizes Paris Security Plans
+                </h2>
+                <p class="byline">By MARCUS JOHNSON</p>
+                <img
+                  src="https://static01.nyt.com/images/2024/04/21/multimedia/21olympics-paris-rgtf/21olympics-paris-rgtf-superJumbo.jpg"
+                  alt="Paris Olympic venue"
+                  class="w-full h-auto mb-3"
+                />
+                <p>
+                  With less than 100 days until the opening ceremony, the
+                  International Olympic Committee and French authorities have
+                  finalized comprehensive security measures for the Paris 2025
+                  Summer Games.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- World News Section -->
+        <div id="world-content" class="category-content">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">MIDDLE EAST</div>
+              <h1 class="headline-lg">
+                Diplomatic Breakthrough Achieved in Middle East Peace Talks
+              </h1>
+              <p class="summary">
+                After months of intensive negotiations, diplomats from key
+                nations announced a significant agreement that could pave the
+                way for renewed peace efforts in the region.
+              </p>
+              <p class="byline">By RICHARD ENGEL and AYMAN MOHYELDIN</p>
+              <img
+                src="https://static01.nyt.com/images/2025/04/21/multimedia/21mideast-peace-krlt/21mideast-peace-krlt-superJumbo.jpg"
+                alt="Diplomats shaking hands at Middle East peace conference"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  DOHA, Qatar — In a development that surprised even seasoned
+                  observers, representatives from several Middle Eastern nations
+                  reached a preliminary agreement on Tuesday that establishes a
+                  framework for addressing long-standing territorial disputes.
+                </p>
+                <p>
+                  The agreement, brokered by a coalition of international
+                  mediators, includes commitments to a phased reduction in
+                  regional tensions and the establishment of a multinational
+                  commission to oversee implementation of security protocols.
+                </p>
+                <p>
+                  "While significant challenges remain, this represents the most
+                  substantial diplomatic progress we've seen in the region for
+                  years," said UN Special Envoy Sara Khalidi.
+                </p>
+                <p>
+                  Regional analysts caution that previous peace initiatives have
+                  faltered during implementation phases, but note that changing
+                  geopolitical dynamics and economic pressures have created new
+                  incentives for cooperation.
+                </p>
+                <p>
+                  The agreement notably includes provisions for humanitarian aid
+                  distribution, economic development projects in affected areas,
+                  and a commitment to further high-level talks scheduled for
+                  next month in Geneva.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">EUROPE</div>
+                <h2 class="headline-md">
+                  European Union Unveils Comprehensive Climate Action Plan
+                </h2>
+                <p class="byline">By CHARLOTTE GRAHAM</p>
+                <p>
+                  The European Commission has announced an ambitious €300
+                  billion plan to accelerate the continent's transition to
+                  renewable energy, with binding targets for member nations to
+                  reduce carbon emissions by 65% before 2035.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">ASIA</div>
+                <h2 class="headline-md">
+                  Record Monsoon Season Displaces Millions Across South Asia
+                </h2>
+                <p class="byline">By AMRITA SHAH</p>
+                <p>
+                  Unprecedented rainfall has triggered severe flooding across
+                  multiple South Asian countries, with climate scientists
+                  linking the intensified monsoon pattern to rising global
+                  temperatures and changing weather systems.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">AFRICA</div>
+                <h2 class="headline-md">
+                  Pan-African Trade Agreement Shows Early Economic Benefits
+                </h2>
+                <p class="byline">By KOFI MENSAH</p>
+                <p>
+                  Two years after implementation, the African Continental Free
+                  Trade Area is showing promising results, with
+                  intra-continental trade increasing by 24% and creating new
+                  market opportunities for small and medium enterprises.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More world news stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">LATIN AMERICA</div>
+                <h2 class="headline-sm">
+                  Brazil Leads Innovative Rainforest Conservation Initiative
+                </h2>
+                <p class="byline">By MARCELA SANTOS</p>
+                <p>
+                  Brazil has launched a groundbreaking program combining
+                  satellite monitoring, indigenous partnerships, and financial
+                  incentives that has reduced Amazon deforestation by 18% over
+                  the past year.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">AUSTRALIA</div>
+                <h2 class="headline-sm">
+                  Australia Sets World Record for Renewable Energy Adoption
+                </h2>
+                <p class="byline">By JAMES COOK</p>
+                <p>
+                  Australia has achieved a new global benchmark with 42% of its
+                  total energy consumption now coming from renewable sources,
+                  primarily solar and wind, following a decade of aggressive
+                  green infrastructure investment.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">ARCTIC</div>
+                <h2 class="headline-sm">
+                  International Arctic Council Agrees on Protection Measures
+                </h2>
+                <p class="byline">By SOFIA PETERSEN</p>
+                <p>
+                  Nations with Arctic territories have agreed to expanded
+                  protections for the region's unique ecosystems, including
+                  limits on resource extraction and shipping regulations to
+                  minimize environmental impact.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- World opinion pieces -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <h3 class="section-label text-xl mb-4">Global Analysis</h3>
+            </div>
+
+            <div class="col-span-6">
+              <div class="pb-6 mb-6">
+                <div class="section-label">ANALYSIS</div>
+                <h2 class="headline-md">
+                  The Changing Geography of Global Power
+                </h2>
+                <p class="byline">By FAREED ZAKARIA</p>
+                <img
+                  src="https://static01.nyt.com/images/2025/04/21/multimedia/21global-power-lmtr/21global-power-lmtr-superJumbo.jpg"
+                  alt="Global leaders at international summit"
+                  class="w-full h-auto mb-3"
+                />
+                <p>
+                  As economic centers shift and new regional powers emerge, the
+                  traditional Western-dominated international order is being
+                  restructured in ways that will fundamentally reshape global
+                  politics for decades to come.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-6">
+              <div class="pb-6 mb-6">
+                <div class="section-label">REPORT</div>
+                <h2 class="headline-md">
+                  Water Security Emerges as Critical Geopolitical Challenge
+                </h2>
+                <p class="byline">By MARIA RODRIGUEZ</p>
+                <img
+                  src="https://static01.nyt.com/images/2025/04/21/multimedia/21water-security-hrtw/21water-security-hrtw-superJumbo.jpg"
+                  alt="Drought-affected landscape"
+                  class="w-full h-auto mb-3"
+                />
+                <p>
+                  With 40% of the world's population now experiencing water
+                  scarcity at least one month per year, access to clean water is
+                  becoming a defining international security issue, driving
+                  migration, political instability, and regional conflicts.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- U.S. News Section -->
+        <div id="us-content" class="category-content">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">INFRASTRUCTURE</div>
+              <h1 class="headline-lg">
+                Historic Infrastructure Bill Passes with Bipartisan Support
+              </h1>
+              <p class="summary">
+                After months of negotiations, Congress has passed a landmark
+                $1.2 trillion infrastructure package aimed at modernizing
+                America's roads, bridges, rail systems, and digital networks.
+              </p>
+              <p class="byline">By JONATHAN MARTIN and CORAL DAVENPORT</p>
+              <img
+                src="https://static01.nyt.com/images/2025/04/20/multimedia/20infrastructure-vote-kftr/20infrastructure-vote-kftr-superJumbo.jpg"
+                alt="Capitol Building with construction equipment"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  WASHINGTON — In a rare display of bipartisan cooperation,
+                  Congress passed a comprehensive infrastructure package on
+                  Thursday that represents the largest investment in America's
+                  physical infrastructure in more than half a century.
+                </p>
+                <p>
+                  The legislation allocates $350 billion for highways and
+                  bridges, $107 billion for public transit, $65 billion for
+                  broadband expansion, and substantial investments in clean
+                  water systems, the electric grid, and climate resilience
+                  projects.
+                </p>
+                <p>
+                  "This bill demonstrates that we can still come together across
+                  party lines to address our nation's most pressing needs," said
+                  Sen. Maria Cantwell, who played a key role in the
+                  negotiations.
+                </p>
+                <p>
+                  Economic analysts project the bill could create as many as 2
+                  million jobs over the next decade while addressing critical
+                  infrastructure deficiencies that have accumulated over decades
+                  of underinvestment.
+                </p>
+                <p>
+                  The legislation's passage comes after weeks of intense
+                  negotiations that nearly collapsed several times, with
+                  last-minute compromises securing enough votes from both
+                  parties to overcome procedural hurdles.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">EDUCATION</div>
+                <h2 class="headline-md">
+                  Study Shows Dramatic Improvement in National Reading Scores
+                </h2>
+                <p class="byline">By ERICA GREEN</p>
+                <p>
+                  A new federal assessment reveals significant gains in reading
+                  proficiency among fourth and eighth graders, following five
+                  years of targeted literacy interventions in districts across
+                  the country.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">ENVIRONMENT</div>
+                <h2 class="headline-md">
+                  Western States Announce Historic Water Conservation Pact
+                </h2>
+                <p class="byline">By HENRY FOUNTAIN</p>
+                <p>
+                  Seven western states have reached an agreement on Colorado
+                  River water allocations, introducing mandatory conservation
+                  measures and investing in desalination technologies to address
+                  the region's prolonged drought.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">TECHNOLOGY</div>
+                <h2 class="headline-md">
+                  Rural Broadband Initiative Connects 5 Million American
+                  Households
+                </h2>
+                <p class="byline">By CECILIA KANG</p>
+                <p>
+                  A federally-funded program to expand high-speed internet
+                  access in underserved areas has reached a major milestone,
+                  connecting millions of rural Americans to essential digital
+                  services and economic opportunities.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More U.S. news stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">ECONOMICS</div>
+                <h2 class="headline-sm">
+                  U.S. Manufacturing Growth Accelerates to Highest Level in 15
+                  Years
+                </h2>
+                <p class="byline">By JIM TANKERSLEY</p>
+                <p>
+                  American manufacturing activity has expanded for the 14th
+                  consecutive month, with particularly strong growth in durable
+                  goods production and new factory jobs throughout the Midwest
+                  and South.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">HEALTH CARE</div>
+                <h2 class="headline-sm">
+                  Hospital Price Transparency Rules Show Early Impact on Costs
+                </h2>
+                <p class="byline">By REED ABELSON</p>
+                <p>
+                  New federal regulations requiring hospitals to publish
+                  previously hidden pricing data are already leading to more
+                  competitive rates and informed consumer choices across the
+                  healthcare system.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">SOCIAL POLICY</div>
+                <h2 class="headline-sm">
+                  Universal Pre-K Program Expands to 12 Additional States
+                </h2>
+                <p class="byline">By DANA GOLDSTEIN</p>
+                <p>
+                  A public-private partnership to provide access to quality
+                  early childhood education is expanding significantly, with
+                  studies from initial participating states showing improved
+                  outcomes in school readiness.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Featured U.S. story -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <div class="section-label">NATIONAL SECURITY</div>
+              <h2 class="headline-md">
+                Cybersecurity Initiative Protects Critical Infrastructure from
+                Foreign Threats
+              </h2>
+              <p class="byline">By DAVID E. SANGER</p>
+              <div class="flex mt-4">
+                <div class="w-1/2 pr-4">
+                  <img
+                    src="https://static01.nyt.com/images/2025/04/21/multimedia/21cyber-defense-ftlr/21cyber-defense-ftlr-superJumbo.jpg"
+                    alt="Cybersecurity operations center"
+                    class="w-full h-auto mb-3"
+                  />
+                </div>
+                <div class="w-1/2">
+                  <p class="summary mb-4">
+                    A joint public-private partnership has successfully thwarted
+                    several sophisticated cyber attacks targeting America's
+                    energy grid, transportation systems, and financial networks
+                    over the past six months.
+                  </p>
+                  <p>
+                    The program combines advanced threat detection systems with
+                    rapid-response protocols that have dramatically reduced
+                    vulnerability to both state-sponsored and criminal cyber
+                    operations.
+                  </p>
+                  <p class="mt-4">
+                    "This represents a new model for protecting essential
+                    services in the digital age," said Cybersecurity and
+                    Infrastructure Security Agency Director Jen Easterly. "The
+                    collaboration between government agencies and private sector
+                    operators has created a far more resilient national security
+                    posture."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Politics Section -->
+        <div id="politics-content" class="category-content">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">ELECTION 2024</div>
+              <h1 class="headline-lg">
+                Presidential Race Tightens as Campaigns Enter Final Stretch
+              </h1>
+              <p class="summary">
+                With less than two weeks until Election Day, polling shows a
+                razor-thin margin in key battleground states as candidates
+                intensify their outreach to undecided voters.
+              </p>
+              <p class="byline">By ALEXANDER BURNS and KATIE GLUECK</p>
+              <img
+                src="https://static01.nyt.com/images/2025/04/21/multimedia/21election-final-push-kftp/21election-final-push-kftp-superJumbo.jpg"
+                alt="Presidential candidates at campaign rallies"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  The presidential race has entered its final, frenzied phase
+                  with both major candidates barnstorming through swing states
+                  and flooding the airwaves with last-minute appeals to voters.
+                </p>
+                <p>
+                  Recent polling aggregates show the candidates separated by
+                  just 1.2 percentage points nationally, with even closer
+                  margins in Pennsylvania, Michigan, and Wisconsin – states that
+                  could determine the ultimate electoral college outcome.
+                </p>
+                <p>
+                  "This election could come down to just a few thousand votes in
+                  a handful of counties," said political analyst Jennifer
+                  Lawson. "Both campaigns are now laser-focused on turnout
+                  operations in these critical areas."
+                </p>
+                <p>
+                  The candidates have sharpened their messaging in recent days,
+                  with economic policy, healthcare, and national security
+                  emerging as the dominant themes in campaign speeches and
+                  advertisements.
+                </p>
+                <p>
+                  Voter enthusiasm appears historically high, with early voting
+                  numbers already exceeding 2020 levels in several key states,
+                  suggesting the possibility of record-breaking overall turnout.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">CONGRESS</div>
+                <h2 class="headline-md">
+                  Senate Passes Comprehensive Electoral Reform Package
+                </h2>
+                <p class="byline">By CARL HULSE</p>
+                <p>
+                  After months of negotiation, the Senate approved legislation
+                  that modernizes vote-counting procedures, clarifies the vice
+                  president's ceremonial role in certifying results, and
+                  increases funding for election security measures.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">SUPREME COURT</div>
+                <h2 class="headline-md">
+                  Landmark Privacy Ruling Limits Government Surveillance
+                </h2>
+                <p class="byline">By ADAM LIPTAK</p>
+                <p>
+                  In a 6-3 decision, the Supreme Court has established new
+                  constraints on law enforcement's ability to access digital
+                  data, requiring warrants for certain types of electronic
+                  surveillance previously conducted without judicial oversight.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">STATE POLITICS</div>
+                <h2 class="headline-md">
+                  Governors Form Bipartisan Climate Resilience Coalition
+                </h2>
+                <p class="byline">By MICHAEL WINES</p>
+                <p>
+                  Twelve governors from both parties have formed an alliance to
+                  share best practices and coordinate resources for climate
+                  adaptation projects, focusing on infrastructure hardening and
+                  emergency response capabilities.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Political analysis section -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <h3 class="section-label text-xl mb-4">Political Analysis</h3>
+            </div>
+
+            <div class="col-span-6">
+              <div class="pb-6 mb-6">
+                <h3 class="headline-md">
+                  How Demographic Shifts Are Reshaping American Politics
+                </h3>
+                <p class="byline">By NATE COHN</p>
+                <img
+                  src="https://static01.nyt.com/images/2025/04/21/multimedia/21demographics-politics-rflt/21demographics-politics-rflt-superJumbo.jpg"
+                  alt="Demographic map of the United States"
+                  class="w-full h-auto mb-3"
+                />
+                <p>
+                  Migration patterns, generational changes, and evolving party
+                  coalitions are transforming the electoral landscape,
+                  challenging traditional assumptions about geographic and
+                  demographic voting blocs.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-6">
+              <div class="pb-6 mb-6">
+                <h3 class="headline-md">
+                  Social Media's Evolving Role in Political Discourse
+                </h3>
+                <p class="byline">By CECILIA KANG</p>
+                <img
+                  src="https://static01.nyt.com/images/2025/04/21/multimedia/21socialmedia-politics-tjrw/21socialmedia-politics-tjrw-superJumbo.jpg"
+                  alt="Person viewing political content on smartphone"
+                  class="w-full h-auto mb-3"
+                />
+                <p>
+                  New research reveals how changes in platform algorithms,
+                  content moderation policies, and user behavior are reshaping
+                  online political communication in ways that influence both
+                  public opinion and campaign strategies.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More politics stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">FOREIGN POLICY</div>
+                <h2 class="headline-sm">
+                  U.S. Announces Strategic Diplomatic Initiative in Southeast
+                  Asia
+                </h2>
+                <p class="byline">By EDWARD WONG</p>
+                <p>
+                  The administration unveiled a comprehensive plan to deepen
+                  economic and security partnerships throughout the Indo-Pacific
+                  region, including new trade agreements and regional security
+                  cooperation frameworks.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">CAMPAIGN FINANCE</div>
+                <h2 class="headline-sm">
+                  Small-Dollar Donations Reach Record Levels in Congressional
+                  Races
+                </h2>
+                <p class="byline">By SHANE GOLDMACHER</p>
+                <p>
+                  Analysis of federal election filings shows unprecedented
+                  levels of grassroots fundraising in House and Senate contests,
+                  with candidates from both parties leveraging digital platforms
+                  to cultivate small donors.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">POLLING</div>
+                <h2 class="headline-sm">
+                  Voters Rank Economy and Democracy as Top Election Concerns
+                </h2>
+                <p class="byline">By GIOVANNI RUSSONELLO</p>
+                <p>
+                  A comprehensive national survey reveals economic issues and
+                  concerns about democratic institutions are voters' highest
+                  priorities, though significant partisan differences exist in
+                  how these concerns are framed.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Business Section -->
+        <div id="business-content" class="category-content">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">MARKETS</div>
+              <h1 class="headline-lg">
+                Fed Signals Shift in Monetary Policy as Economy Shows Resilience
+              </h1>
+              <p class="summary">
+                The Federal Reserve indicated a potential adjustment to its
+                interest rate strategy following stronger-than-expected economic
+                data and evolving inflation metrics.
+              </p>
+              <p class="byline">By JEANNA SMIALEK and JIM TANKERSLEY</p>
+              <img
+                src="https://static01.nyt.com/images/2025/04/21/multimedia/21fed-markets-hrty/21fed-markets-hrty-superJumbo.jpg"
+                alt="Federal Reserve Building in Washington"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  WASHINGTON — The Federal Reserve on Wednesday signaled a
+                  potential pivot in its monetary policy approach, with
+                  officials suggesting that strong economic performance might
+                  warrant a recalibration of its interest rate strategy.
+                </p>
+                <p>
+                  In remarks following the Federal Open Market Committee
+                  meeting, Fed Chair Jerome Powell noted that recent economic
+                  indicators have consistently exceeded forecasts, with robust
+                  job growth, consumer spending, and business investment.
+                </p>
+                <p>
+                  "The economy has demonstrated remarkable resilience and
+                  adaptability," Powell said. "While we remain attentive to
+                  inflation risks, the current data suggests we have greater
+                  flexibility in our policy approach going forward."
+                </p>
+                <p>
+                  Markets responded positively to the announcement, with major
+                  indices climbing and bond yields adjusting to reflect
+                  expectations of a more accommodative monetary environment in
+                  coming quarters.
+                </p>
+                <p>
+                  Economists broadly interpret the Fed's messaging as setting
+                  the stage for a potential policy shift later this year, though
+                  the precise timing and magnitude remain subject to incoming
+                  economic data.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">TECHNOLOGY</div>
+                <h2 class="headline-md">
+                  Major Tech Companies Announce $50 Billion AI Infrastructure
+                  Investment
+                </h2>
+                <p class="byline">By CADE METZ</p>
+                <p>
+                  Five leading technology companies have committed to a massive
+                  joint investment in advanced computing infrastructure,
+                  specialized semiconductor fabrication, and energy-efficient
+                  data centers to support next-generation AI development.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">ENERGY</div>
+                <h2 class="headline-md">
+                  Renewable Energy Overtakes Fossil Fuels in New Power
+                  Generation
+                </h2>
+                <p class="byline">By IVAN PENN</p>
+                <p>
+                  For the first time, global investments in new renewable energy
+                  capacity exceeded those in fossil fuel generation last year,
+                  with particularly strong growth in solar, wind, and battery
+                  storage technologies.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">RETAIL</div>
+                <h2 class="headline-md">
+                  Consumer Spending Patterns Show Significant Post-Pandemic
+                  Shifts
+                </h2>
+                <p class="byline">By SAPNA MAHESHWARI</p>
+                <p>
+                  New consumer data reveals lasting changes in spending habits,
+                  with increased allocation to experiences, home improvement,
+                  and health-related categories compared to pre-pandemic
+                  patterns.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More business stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">AUTOMOTIVE</div>
+                <h2 class="headline-sm">
+                  Electric Vehicle Sales Surpass Gasoline Models in Major
+                  Markets
+                </h2>
+                <p class="byline">By NEAL E. BOUDETTE</p>
+                <p>
+                  Electric vehicles now account for the majority of new
+                  passenger car sales in several major automotive markets, with
+                  battery technology improvements and charging infrastructure
+                  expansion accelerating adoption.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">CRYPTOCURRENCY</div>
+                <h2 class="headline-sm">
+                  Central Banks Accelerate Digital Currency Development
+                </h2>
+                <p class="byline">By NATHANIEL POPPER</p>
+                <p>
+                  More than 20 central banks worldwide are now in advanced
+                  stages of developing Central Bank Digital Currencies, with
+                  several major economies planning limited deployments within
+                  the next 18 months.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">LABOR</div>
+                <h2 class="headline-sm">
+                  Four-Day Workweek Trials Show Productivity Gains at Major
+                  Firms
+                </h2>
+                <p class="byline">By NOAM SCHEIBER</p>
+                <p>
+                  Companies participating in structured four-day workweek pilot
+                  programs report improved worker satisfaction, reduced
+                  turnover, and maintained or enhanced productivity metrics
+                  across various industries.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Business analysis section -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <h3 class="section-label text-xl mb-4">Market Analysis</h3>
+            </div>
+
+            <div class="col-span-6">
+              <div class="pb-6 mb-6">
+                <div class="section-label">GLOBAL ECONOMY</div>
+                <h2 class="headline-md">
+                  Supply Chain Restructuring Reshapes Global Trade Patterns
+                </h2>
+                <p class="byline">By PETER S. GOODMAN</p>
+                <img
+                  src="https://static01.nyt.com/images/2025/04/21/multimedia/21global-trade-ktpr/21global-trade-ktpr-superJumbo.jpg"
+                  alt="Shipping containers at international port"
+                  class="w-full h-auto mb-3"
+                />
+                <p>
+                  The ongoing restructuring of global supply chains is creating
+                  new trade corridors, industrial hubs, and logistics networks
+                  as companies pursue both resilience and efficiency in their
+                  operations.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-6">
+              <div class="pb-6 mb-6">
+                <div class="section-label">INNOVATION</div>
+                <h2 class="headline-md">
+                  Breakthrough Battery Technology Promises to Transform Energy
+                  Storage
+                </h2>
+                <p class="byline">By JOHN MARKOFF</p>
+                <img
+                  src="https://static01.nyt.com/images/2025/04/21/multimedia/21battery-tech-rtjk/21battery-tech-rtjk-superJumbo.jpg"
+                  alt="Advanced battery technology in laboratory"
+                  class="w-full h-auto mb-3"
+                />
+                <p>
+                  A new generation of battery technologies is approaching
+                  commercial viability, offering dramatic improvements in energy
+                  density, charging speed, and lifecycle durability that could
+                  accelerate electrification across multiple industries.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technology Section -->
+        <div id="tech-content" class="category-content">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">ARTIFICIAL INTELLIGENCE</div>
+              <h1 class="headline-lg">
+                AI Medical Breakthrough Accelerates Drug Discovery Process
+              </h1>
+              <p class="summary">
+                A cutting-edge artificial intelligence system has demonstrated
+                unprecedented capability in identifying potential drug
+                candidates for previously untreatable conditions, drastically
+                reducing research timelines.
+              </p>
+              <p class="byline">By CADE METZ and REBECCA ROBBINS</p>
+              <img
+                src="https://static01.nyt.com/images/2025/04/21/multimedia/21ai-pharma-tfkr/21ai-pharma-tfkr-superJumbo.jpg"
+                alt="AI pharmaceutical research visualization"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  A collaboration between leading research universities and
+                  pharmaceutical companies has yielded a breakthrough in
+                  AI-powered drug discovery that experts believe could
+                  fundamentally transform how new medications are developed.
+                </p>
+                <p>
+                  The system, which combines advanced machine learning
+                  techniques with detailed molecular modeling, has successfully
+                  identified promising therapeutic compounds for several
+                  conditions that have long resisted conventional drug
+                  development approaches.
+                </p>
+                <p>
+                  "What previously might have taken a decade of laboratory work
+                  can now be accomplished in months," said Dr. Jennifer Chen,
+                  who leads the research consortium. "The AI system can evaluate
+                  millions of potential molecular structures and predict their
+                  therapeutic properties with remarkable accuracy."
+                </p>
+                <p>
+                  Clinical trials for the first drug candidates identified by
+                  the system are already underway, focusing on treatments for
+                  certain neurodegenerative diseases and antibiotic-resistant
+                  infections.
+                </p>
+                <p>
+                  Industry analysts suggest this advancement could significantly
+                  reduce the astronomical costs and extended timelines typically
+                  associated with bringing new pharmaceuticals to market,
+                  potentially making cutting-edge treatments more widely
+                  accessible.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">QUANTUM COMPUTING</div>
+                <h2 class="headline-md">
+                  Quantum Processor Achieves Computational Milestone
+                </h2>
+                <p class="byline">By JOHN MARKOFF</p>
+                <p>
+                  Scientists have demonstrated a quantum computing system that
+                  successfully maintained quantum coherence long enough to
+                  perform complex calculations beyond the practical capability
+                  of conventional supercomputers.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">CYBERSECURITY</div>
+                <h2 class="headline-md">
+                  New Encryption Protocol Sets Standard for Data Protection
+                </h2>
+                <p class="byline">By NICOLE PERLROTH</p>
+                <p>
+                  An international consortium has finalized specifications for a
+                  next-generation encryption standard designed to withstand
+                  future quantum computing attacks while improving performance
+                  on current systems.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">SPACE TECHNOLOGY</div>
+                <h2 class="headline-md">
+                  Private Aerospace Firm Achieves Fully Reusable Orbital Launch
+                </h2>
+                <p class="byline">By KENNETH CHANG</p>
+                <p>
+                  A commercial space company has successfully demonstrated the
+                  first completely reusable orbital launch system, with both
+                  booster and upper stage returning intact, marking a
+                  significant milestone in reducing space access costs.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More tech stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">ROBOTICS</div>
+                <h2 class="headline-sm">
+                  Humanoid Robots Enter Commercial Service in Healthcare
+                  Settings
+                </h2>
+                <p class="byline">By DAISUKE WAKABAYASHI</p>
+                <p>
+                  Advanced humanoid robots equipped with sophisticated AI
+                  systems have begun deployment in several hospitals, assisting
+                  with routine tasks such as medication delivery, patient
+                  monitoring, and environmental sanitization.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">TRANSPORTATION</div>
+                <h2 class="headline-sm">
+                  Autonomous Vehicle Network Launches in Major Metropolitan Area
+                </h2>
+                <p class="byline">By NEAL E. BOUDETTE</p>
+                <p>
+                  The first large-scale commercial deployment of interconnected
+                  autonomous vehicles has begun operations, with a fleet of
+                  self-driving taxis now serving customers throughout a major
+                  urban center.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">SUSTAINABILITY</div>
+                <h2 class="headline-sm">
+                  Carbon Capture Technology Shows Dramatic Efficiency Gains
+                </h2>
+                <p class="byline">By BRAD PLUMER</p>
+                <p>
+                  Engineers have demonstrated a next-generation carbon capture
+                  system that requires significantly less energy while capturing
+                  more carbon dioxide, potentially making the technology
+                  economically viable for widespread industrial deployment.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tech feature -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <div class="section-label">THE FUTURE OF WORK</div>
+              <h2 class="headline-md">
+                How AI Is Transforming Professional Skills and Career Paths
+              </h2>
+              <p class="byline">By KEVIN ROOSE</p>
+              <div class="flex mt-4">
+                <div class="w-1/2 pr-4">
+                  <img
+                    src="https://static01.nyt.com/images/2025/04/21/multimedia/21ai-workforce-ktlr/21ai-workforce-ktlr-superJumbo.jpg"
+                    alt="Person working with AI assistant"
+                    class="w-full h-auto mb-3"
+                  />
+                </div>
+                <div class="w-1/2">
+                  <p class="summary mb-4">
+                    As artificial intelligence systems become increasingly
+                    capable, workers across industries are experiencing profound
+                    shifts in required skills, job responsibilities, and career
+                    trajectories.
+                  </p>
+                  <p>
+                    Research indicates that rather than wholesale job
+                    replacement, AI is more commonly transforming occupations by
+                    automating specific tasks while creating demand for new
+                    human capabilities focused on creativity, judgment, and
+                    interpersonal skills.
+                  </p>
+                  <p class="mt-4">
+                    "We're seeing the emergence of entirely new job categories
+                    built around human-AI collaboration," said Dr. Laura Chen,
+                    director of the Future of Work Institute. "The most
+                    successful professionals will be those who effectively
+                    leverage AI capabilities while contributing distinctly human
+                    expertise."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Science Section -->
+        <div id="science-content" class="category-content">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">SPACE EXPLORATION</div>
+              <h1 class="headline-lg">
+                Evidence of Microbial Life Detected on Mars by Perseverance
+                Rover
+              </h1>
+              <p class="summary">
+                NASA scientists announced that instruments aboard the
+                Perseverance rover have identified organic compounds and
+                biological signatures suggesting ancient microbial activity in
+                Martian soil samples.
+              </p>
+              <p class="byline">By KENNETH CHANG and DENNIS OVERBYE</p>
+              <img
+                src="https://static01.nyt.com/images/2025/04/21/multimedia/21mars-life-ktlr/21mars-life-ktlr-superJumbo.jpg"
+                alt="Mars Perseverance rover collecting samples"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  In what could prove to be one of the most significant
+                  scientific discoveries in human history, NASA announced
+                  Thursday that its Perseverance rover has detected compelling
+                  evidence of ancient microbial life in samples collected from
+                  Mars' Jezero Crater.
+                </p>
+                <p>
+                  The findings, which include complex organic molecules arranged
+                  in patterns consistent with biological processes, provide the
+                  strongest indication yet that life once existed beyond Earth.
+                </p>
+                <p>
+                  "While we need to be cautious and conduct further analysis,
+                  the data strongly suggests we are looking at the remnants of
+                  microbial communities that existed when Mars had flowing
+                  surface water," said Dr. Sarah Mitchell, the mission's lead
+                  astrobiologist.
+                </p>
+                <p>
+                  The discovery comes from sophisticated instruments aboard
+                  Perseverance that can detect minute quantities of biochemical
+                  compounds and analyze their molecular structures in
+                  unprecedented detail.
+                </p>
+                <p>
+                  NASA plans to return these samples to Earth via the Mars
+                  Sample Return mission, allowing scientists to conduct more
+                  comprehensive laboratory analyses that could definitively
+                  confirm the biological origin of these compounds.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">CLIMATE SCIENCE</div>
+                <h2 class="headline-md">
+                  Deep Sea Current Changes Alarm Climate Scientists
+                </h2>
+                <p class="byline">By HENRY FOUNTAIN</p>
+                <p>
+                  Oceanographers have documented concerning shifts in Atlantic
+                  Ocean circulation patterns, with data showing the fastest
+                  changes in the Gulf Stream system since monitoring began,
+                  potentially impacting weather patterns across multiple
+                  continents.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">GENETICS</div>
+                <h2 class="headline-md">
+                  CRISPR Therapy Shows Promise for Genetic Heart Conditions
+                </h2>
+                <p class="byline">By GINA KOLATA</p>
+                <p>
+                  Clinical trials using CRISPR gene-editing technology to treat
+                  inherited cardiomyopathies have shown remarkable early
+                  results, with patients experiencing significant improvement in
+                  cardiac function after a single treatment.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">NEUROSCIENCE</div>
+                <h2 class="headline-md">
+                  Brain-Computer Interface Achieves Breakthrough in
+                  Communication
+                </h2>
+                <p class="byline">By BENEDICT CAREY</p>
+                <p>
+                  Researchers have demonstrated an advanced brain-computer
+                  interface that allows people with severe paralysis to
+                  communicate through thought alone at speeds approaching normal
+                  conversation, representing a quantum leap in assistive
+                  technology.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More science stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">PALEONTOLOGY</div>
+                <h2 class="headline-sm">
+                  Remarkably Preserved Dinosaur Fossil Reveals New Details About
+                  Feathers
+                </h2>
+                <p class="byline">By JAMES GORMAN</p>
+                <p>
+                  An exceptionally well-preserved dinosaur specimen discovered
+                  in Mongolia has provided unprecedented insights into feather
+                  structures and coloration, challenging previous theories about
+                  the evolution of plumage.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">ASTRONOMY</div>
+                <h2 class="headline-sm">
+                  James Webb Telescope Reveals Unexpected Features of Early
+                  Galaxies
+                </h2>
+                <p class="byline">By DENNIS OVERBYE</p>
+                <p>
+                  New observations from the James Webb Space Telescope have
+                  revealed surprisingly mature and structured galaxies in the
+                  early universe, challenging cosmological models about how
+                  quickly galaxies formed after the Big Bang.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">PHYSICS</div>
+                <h2 class="headline-sm">
+                  Particle Accelerator Experiment Yields Evidence of Fifth
+                  Fundamental Force
+                </h2>
+                <p class="byline">By DENNIS OVERBYE</p>
+                <p>
+                  Physicists conducting experiments at the Large Hadron Collider
+                  have observed particle interactions that cannot be explained
+                  by the four known fundamental forces, potentially indicating
+                  the existence of a fifth force of nature.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Science feature -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <div class="section-label">CONSERVATION</div>
+              <h2 class="headline-md">
+                Breakthrough Conservation Program Reverses Decline of Endangered
+                Species
+              </h2>
+              <p class="byline">By CARL ZIMMER</p>
+              <div class="flex mt-4">
+                <div class="w-1/2 pr-4">
+                  <img
+                    src="https://static01.nyt.com/images/2025/04/21/multimedia/21conservation-jktr/21conservation-jktr-superJumbo.jpg"
+                    alt="Scientists working with endangered species"
+                    class="w-full h-auto mb-3"
+                  />
+                </div>
+                <div class="w-1/2">
+                  <p class="summary mb-4">
+                    An innovative conservation initiative combining genetic
+                    techniques, habitat restoration, and community partnerships
+                    has achieved remarkable success in pulling multiple species
+                    back from the brink of extinction.
+                  </p>
+                  <p>
+                    The program, which integrates cutting-edge genomic analysis
+                    with traditional conservation approaches, has documented
+                    population increases in 14 critically endangered species
+                    across three continents in just four years.
+                  </p>
+                  <p class="mt-4">
+                    "By combining scientific innovation with deep community
+                    engagement, we've created a model that can be adapted for
+                    endangered species worldwide," said Dr. Maria Rodriguez, the
+                    program's director. "Local communities are now active
+                    participants in conservation efforts rather than viewing
+                    them as externally imposed restrictions."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Health Section -->
+        <div id="health-content" class="category-content">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">MEDICAL RESEARCH</div>
+              <h1 class="headline-lg">
+                Universal Cancer Vaccine Shows Promising Results in Early Trials
+              </h1>
+              <p class="summary">
+                A groundbreaking vaccine that trains the immune system to
+                recognize and attack common markers found across multiple cancer
+                types has demonstrated exceptional efficacy in initial human
+                trials.
+              </p>
+              <p class="byline">By GINA KOLATA and KATIE THOMAS</p>
+              <img
+                src="https://static01.nyt.com/images/2025/04/21/multimedia/21cancer-vaccine-ktpr/21cancer-vaccine-ktpr-superJumbo.jpg"
+                alt="Laboratory researchers working on cancer vaccine"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  A revolutionary approach to cancer treatment that harnesses
+                  mRNA technology to create a "universal" cancer vaccine has
+                  shown remarkable results in early-stage clinical trials,
+                  potentially heralding a new era in cancer prevention and
+                  therapy.
+                </p>
+                <p>
+                  The vaccine, developed through collaboration between academic
+                  researchers and biotechnology firms, is designed to target
+                  specific molecular signatures that appear across numerous
+                  cancer types but are absent in healthy cells.
+                </p>
+                <p>
+                  "This represents a fundamentally different approach to cancer
+                  treatment," explained Dr. Robert Chen, lead investigator for
+                  the trial. "Rather than treating cancer after it develops,
+                  we're training the immune system to recognize and eliminate
+                  cancer cells at the earliest stages — or even prevent them
+                  from establishing themselves in the first place."
+                </p>
+                <p>
+                  Preliminary data from Phase I trials show that the vaccine
+                  generated strong immune responses in 94% of participants, with
+                  patients who had previously undergone cancer treatment showing
+                  no signs of recurrence after 18 months.
+                </p>
+                <p>
+                  While researchers caution that larger trials are needed to
+                  confirm these findings, the initial results have generated
+                  unprecedented excitement in the oncology community about the
+                  potential for a preventative approach to cancer.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">PUBLIC HEALTH</div>
+                <h2 class="headline-md">
+                  Rapid Diagnostics Deploy to Counter Emerging Respiratory
+                  Pathogen
+                </h2>
+                <p class="byline">By APOORVA MANDAVILLI</p>
+                <p>
+                  Health authorities have mobilized advanced diagnostic
+                  technologies to identify and track a newly identified
+                  respiratory virus, with rapid tests already being distributed
+                  to affected regions and international transit hubs.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">NEUROLOGY</div>
+                <h2 class="headline-md">
+                  New Treatment Significantly Slows Alzheimer's Progression
+                </h2>
+                <p class="byline">By PAM BELLUCK</p>
+                <p>
+                  A combination therapy targeting multiple pathological
+                  processes in Alzheimer's disease has demonstrated the ability
+                  to significantly slow cognitive decline and preserve daily
+                  functioning in patients with early to moderate stages of the
+                  condition.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">MENTAL HEALTH</div>
+                <h2 class="headline-md">
+                  Psychedelic Therapy Receives Breakthrough Status for
+                  Treatment-Resistant Depression
+                </h2>
+                <p class="byline">By BENEDICT CAREY</p>
+                <p>
+                  The FDA has granted breakthrough therapy designation to a
+                  psilocybin-based treatment protocol for major depressive
+                  disorder, accelerating its review process following
+                  exceptional results in clinical trials.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More health stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">NUTRITION</div>
+                <h2 class="headline-sm">
+                  Long-Term Study Reveals Optimal Dietary Patterns for Longevity
+                </h2>
+                <p class="byline">By ANAHAD O'CONNOR</p>
+                <p>
+                  A comprehensive 30-year study tracking dietary habits and
+                  health outcomes has identified specific nutritional patterns
+                  strongly associated with increased lifespan and reduced risk
+                  of chronic disease across diverse populations.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">PEDIATRICS</div>
+                <h2 class="headline-sm">
+                  New Guidelines Transform Approach to Childhood Allergies
+                </h2>
+                <p class="byline">By PERRI KLASS</p>
+                <p>
+                  Pediatric associations have issued updated guidelines for
+                  preventing food allergies in children, recommending early
+                  introduction of common allergens based on research showing
+                  this approach significantly reduces allergy development.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">BIOTECHNOLOGY</div>
+                <h2 class="headline-sm">
+                  3D-Printed Organs Successfully Transplanted in Landmark
+                  Surgery
+                </h2>
+                <p class="byline">By CARL ZIMMER</p>
+                <p>
+                  Surgeons have successfully transplanted the first fully
+                  functional 3D-printed organs created from patients' own cells,
+                  eliminating rejection risks and potentially revolutionizing
+                  the field of transplant medicine.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Health feature -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <div class="section-label">PREVENTIVE MEDICINE</div>
+              <h2 class="headline-md">
+                How Wearable Technology Is Transforming Personalized Healthcare
+              </h2>
+              <p class="byline">By KATIE THOMAS</p>
+              <div class="flex mt-4">
+                <div class="w-1/2 pr-4">
+                  <img
+                    src="https://static01.nyt.com/images/2025/04/21/multimedia/21wearables-health-kptr/21wearables-health-kptr-superJumbo.jpg"
+                    alt="Advanced health monitoring wearable devices"
+                    class="w-full h-auto mb-3"
+                  />
+                </div>
+                <div class="w-1/2">
+                  <p class="summary mb-4">
+                    Advanced wearable devices that continuously monitor multiple
+                    health parameters are enabling unprecedented early detection
+                    of developing health conditions, often before traditional
+                    symptoms appear.
+                  </p>
+                  <p>
+                    The latest generation of health wearables combines
+                    sophisticated sensors, AI analysis, and integration with
+                    medical records to provide actionable health insights and
+                    alert users to subtle physiological changes that might
+                    indicate emerging health issues.
+                  </p>
+                  <p class="mt-4">
+                    "We're seeing cases where these devices detected early signs
+                    of serious conditions like atrial fibrillation, sleep apnea,
+                    and even certain infections before the person experienced
+                    noticeable symptoms," said Dr. James Wilson, director of
+                    digital health at Stanford Medical Center. "This represents
+                    a fundamental shift toward truly preventive medicine."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sports Section -->
+        <div id="sports-content" class="category-content">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">OLYMPICS</div>
+              <h1 class="headline-lg">
+                Historic Medal Count as Paris Olympics Draws to a Close
+              </h1>
+              <p class="summary">
+                The Paris 2025 Olympic Games concluded with a spectacular
+                closing ceremony as athletes celebrated record-breaking
+                performances and unprecedented competitive balance among
+                nations.
+              </p>
+              <p class="byline">By JULIET MACUR and ANDREW KEH</p>
+              <img
+                src="https://static01.nyt.com/images/2025/04/21/multimedia/21olympics-closing-ktpr/21olympics-closing-ktpr-superJumbo.jpg"
+                alt="Paris Olympics closing ceremony"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  PARIS — The Paris Olympic Games concluded Sunday night with an
+                  elaborate closing ceremony that celebrated both athletic
+                  excellence and French cultural heritage, bringing to an end
+                  two weeks of competition that saw multiple world records
+                  shattered and new Olympic legends crowned.
+                </p>
+                <p>
+                  The final medal count reflected growing competitive parity in
+                  international sports, with 93 countries earning at least one
+                  medal — the highest number in Olympic history — and 12 nations
+                  reaching double-digit gold medal totals.
+                </p>
+                <p>
+                  "These Games have truly embodied the Olympic spirit of
+                  excellence, friendship, and respect," said International
+                  Olympic Committee President Thomas Bach. "The athletes have
+                  inspired us with their performances, and Paris has proven to
+                  be an exceptional host."
+                </p>
+                <p>
+                  The Games featured numerous historic achievements, including
+                  the first Olympic gold medals for five countries and
+                  unprecedented domination in several sports with athletes
+                  claiming multiple gold medals in swimming, athletics, and
+                  gymnastics.
+                </p>
+                <p>
+                  Paris organizers received widespread praise for staging a
+                  sustainable Olympics that integrated competitions into the
+                  urban landscape, with iconic venues like beach volleyball at
+                  the Eiffel Tower and equestrian events at Versailles capturing
+                  global attention.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">TENNIS</div>
+                <h2 class="headline-md">
+                  Rising Star Claims First Grand Slam Title at U.S. Open
+                </h2>
+                <p class="byline">By CHRISTOPHER CLAREY</p>
+                <p>
+                  The tennis world has a new Grand Slam champion as the
+                  19-year-old phenom defeated the defending champion in a
+                  thrilling five-set final that showcased exceptional
+                  athleticism and mental fortitude from both competitors.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">SOCCER</div>
+                <h2 class="headline-md">
+                  Champions League Expands with Revolutionary Format
+                </h2>
+                <p class="byline">By RORY SMITH</p>
+                <p>
+                  Europe's premier club soccer competition kicked off its new
+                  expanded format featuring more teams and a revised league
+                  phase, creating more high-stakes matches and opportunities for
+                  clubs from smaller leagues to compete against the continent's
+                  elite.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">BASKETBALL</div>
+                <h2 class="headline-md">
+                  NBA Expansion Franchises Announced for Las Vegas and Seattle
+                </h2>
+                <p class="byline">By MARC STEIN</p>
+                <p>
+                  The National Basketball Association officially announced
+                  expansion teams for Las Vegas and Seattle, ending Seattle's
+                  15-year absence from the league and bringing the total number
+                  of NBA franchises to 32 beginning with the 2026-27 season.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More sports stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">FOOTBALL</div>
+                <h2 class="headline-sm">
+                  NFL Implements Innovative Concussion Prevention Protocols
+                </h2>
+                <p class="byline">By KEN BELSON</p>
+                <p>
+                  The National Football League has instituted comprehensive new
+                  player safety measures including advanced helmet technology,
+                  modified tackling rules, and enhanced sideline neurological
+                  assessment procedures to address head injury concerns.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">GOLF</div>
+                <h2 class="headline-sm">
+                  Unified Golf Tour Emerges After Professional Golf
+                  Reconciliation
+                </h2>
+                <p class="byline">By BILL PENNINGTON</p>
+                <p>
+                  Following two years of negotiations, professional golf's
+                  competing organizations have reached an agreement to create a
+                  unified global tour structure that will bring together the
+                  world's top players for an enhanced competition schedule.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">BASEBALL</div>
+                <h2 class="headline-sm">
+                  MLB Expansion Draft Set as League Welcomes New Franchises
+                </h2>
+                <p class="byline">By TYLER KEPNER</p>
+                <p>
+                  Major League Baseball has finalized plans for an expansion
+                  draft as the league prepares to welcome new franchises in
+                  Nashville and Portland, marking the first MLB expansion since
+                  the Arizona Diamondbacks and Tampa Bay Rays joined in 1998.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sports feature -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <div class="section-label">INNOVATION</div>
+              <h2 class="headline-md">
+                How Technology Is Revolutionizing Athletic Performance and
+                Training
+              </h2>
+              <p class="byline">By LINDSAY CROUSE</p>
+              <div class="flex mt-4">
+                <div class="w-1/2 pr-4">
+                  <img
+                    src="https://static01.nyt.com/images/2025/04/21/multimedia/21sports-tech-ktpr/21sports-tech-ktpr-superJumbo.jpg"
+                    alt="Athlete training with advanced technology"
+                    class="w-full h-auto mb-3"
+                  />
+                </div>
+                <div class="w-1/2">
+                  <p class="summary mb-4">
+                    Advanced technologies including AI-powered biomechanical
+                    analysis, personalized training algorithms, and
+                    next-generation recovery methods are transforming athletic
+                    development across professional and amateur sports.
+                  </p>
+                  <p>
+                    Elite sports programs are incorporating sophisticated data
+                    systems that continuously monitor athlete performance
+                    metrics, fatigue levels, and injury risk factors to optimize
+                    training loads and recovery protocols with unprecedented
+                    precision.
+                  </p>
+                  <p class="mt-4">
+                    "The data-driven approach has completely transformed how we
+                    develop athletes," said performance director Sophie
+                    Williams. "We're now able to identify potential injury risks
+                    weeks before they become problematic and tailor training
+                    programs to each athlete's unique physiological profile."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arts Section -->
+        <div id="arts-content" class="category-content">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">VISUAL ARTS</div>
+              <h1 class="headline-lg">
+                Louvre and British Museum Announce Unprecedented Artifact
+                Exchange
+              </h1>
+              <p class="summary">
+                In a historic cultural collaboration, two of the world's most
+                prestigious museums have agreed to a decade-long exchange
+                program involving hundreds of significant artifacts never before
+                displayed outside their home institutions.
+              </p>
+              <p class="byline">By JASON FARAGO and ALEX MARSHALL</p>
+              <img
+                src="https://static01.nyt.com/images/2025/04/21/multimedia/21museum-exchange-ktpr/21museum-exchange-ktpr-superJumbo.jpg"
+                alt="Curators preparing artifacts for museum exchange"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  PARIS — In what cultural historians are calling an
+                  unprecedented collaboration, the Louvre Museum in Paris and
+                  the British Museum in London have announced a sweeping
+                  exchange program that will see hundreds of significant
+                  artifacts travel between the institutions over the next
+                  decade.
+                </p>
+                <p>
+                  The initiative will enable visitors at both museums to
+                  experience masterpieces that have never before left their
+                  permanent collections, including works from ancient Egypt,
+                  Greece, and Rome, alongside Renaissance treasures and
+                  artifacts from global civilizations.
+                </p>
+                <p>
+                  "This represents a new model of cultural cooperation that
+                  transcends traditional boundaries," said Marie Laurent,
+                  director of the Louvre. "Together, we are creating
+                  opportunities for millions of visitors to experience these
+                  treasures in new contexts and dialogues."
+                </p>
+                <p>
+                  The program will begin next spring with an exchange of
+                  Egyptian antiquities, including the temporary relocation of
+                  several significant sculptures and funerary objects that will
+                  be displayed alongside related works from the host museum's
+                  collection.
+                </p>
+                <p>
+                  Both institutions emphasized that the exchange was developed
+                  with extensive consultation with source nations and will
+                  include collaborative research projects, conservation
+                  initiatives, and digital access programs to expand the
+                  educational impact beyond physical visitors.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">FILM</div>
+                <h2 class="headline-md">
+                  Revolutionary VR Cinema Experience Debuts at Major Film
+                  Festival
+                </h2>
+                <p class="byline">By MANOHLA DARGIS</p>
+                <p>
+                  A groundbreaking virtual reality cinema format that allows
+                  viewers to experience narrative films from multiple
+                  perspectives premiered at a major film festival, with critics
+                  hailing it as a potential evolutionary leap for the medium.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">MUSIC</div>
+                <h2 class="headline-md">
+                  Artificial Intelligence Composers Challenge Music Industry
+                </h2>
+                <p class="byline">By JON PARELES</p>
+                <p>
+                  Advanced AI systems capable of composing original music in
+                  virtually any style or genre are raising profound questions
+                  about creativity, copyright, and the future of the music
+                  industry as these works gain popularity on streaming
+                  platforms.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">THEATER</div>
+                <h2 class="headline-md">
+                  Broadway Sees Record Attendance as New Productions Draw
+                  Diverse Audiences
+                </h2>
+                <p class="byline">By JESSE GREEN</p>
+                <p>
+                  Broadway theaters reported their highest attendance figures in
+                  history, with innovative productions and accessible pricing
+                  strategies successfully attracting younger and more diverse
+                  audiences to both classic revivals and original works.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More arts stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">DANCE</div>
+                <h2 class="headline-sm">
+                  Global Dance Festival Reimagines Classical Forms Through
+                  Technology
+                </h2>
+                <p class="byline">By GIA KOURLAS</p>
+                <p>
+                  A major international dance festival featured pioneering
+                  performances that integrate motion-capture technology,
+                  interactive environments, and real-time digital elements with
+                  traditional dance disciplines from around the world.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">ARCHITECTURE</div>
+                <h2 class="headline-sm">
+                  Sustainable Skyscraper Sets New Standard for Urban Design
+                </h2>
+                <p class="byline">By MICHAEL KIMMELMAN</p>
+                <p>
+                  A revolutionary high-rise building incorporating unprecedented
+                  sustainability features has opened, generating its own energy,
+                  purifying surrounding air, and establishing new benchmarks for
+                  environmentally responsive urban architecture.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">TELEVISION</div>
+                <h2 class="headline-sm">
+                  Interactive Drama Series Allows Viewers to Shape Narrative
+                </h2>
+                <p class="byline">By JAMES PONIEWOZIK</p>
+                <p>
+                  A sophisticated new television series leverages advanced
+                  technology to allow viewers to influence storylines in
+                  real-time, creating a personalized viewing experience that
+                  blurs the boundaries between passive entertainment and
+                  interactive storytelling.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Arts feature -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <div class="section-label">CULTURAL PRESERVATION</div>
+              <h2 class="headline-md">
+                Digital Technologies Revolutionize Art Conservation and Cultural
+                Heritage Protection
+              </h2>
+              <p class="byline">By JASON FARAGO</p>
+              <div class="flex mt-4">
+                <div class="w-1/2 pr-4">
+                  <img
+                    src="https://static01.nyt.com/images/2025/04/21/multimedia/21digital-conservation-ktpr/21digital-conservation-ktpr-superJumbo.jpg"
+                    alt="Art conservator using advanced digital tools"
+                    class="w-full h-auto mb-3"
+                  />
+                </div>
+                <div class="w-1/2">
+                  <p class="summary mb-4">
+                    Advanced technologies including ultra-high-resolution
+                    scanning, AI-powered analysis, and molecular-level
+                    treatments are transforming how museums and cultural
+                    institutions preserve and restore irreplaceable artifacts.
+                  </p>
+                  <p>
+                    These tools allow conservators to detect previously
+                    invisible damage, understand historical creation techniques
+                    with unprecedented clarity, and apply precision treatments
+                    that minimize intervention while maximizing preservation
+                    effectiveness.
+                  </p>
+                  <p class="mt-4">
+                    "We can now identify structural weaknesses years before they
+                    would become visible to the human eye," said Dr. Elena
+                    Gomez, head of conservation at the Metropolitan Museum of
+                    Art. "This predictive capability allows us to implement
+                    preventive measures that can extend the life of cultural
+                    treasures for generations to come."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Books Section -->
+        <div id="books-content" class="category-content">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">LITERATURE</div>
+              <h1 class="headline-lg">
+                Long-Lost Manuscript by Renowned Author Discovered in University
+                Archive
+              </h1>
+              <p class="summary">
+                Literary scholars are celebrating the discovery of a complete
+                unpublished novel by a major 20th-century author, found among
+                uncatalogued papers in a university library's special
+                collections.
+              </p>
+              <p class="byline">By DWIGHT GARNER and ALEXANDRA ALTER</p>
+              <img
+                src="https://static01.nyt.com/images/2025/04/21/multimedia/21manuscript-discovery-ktpr/21manuscript-discovery-ktpr-superJumbo.jpg"
+                alt="Scholars examining discovered manuscript"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  In a discovery that has electrified the literary world,
+                  archivists at Princeton University have found a complete,
+                  previously unknown manuscript of a novel by a celebrated
+                  20th-century author while digitizing a collection of
+                  uncatalogued papers donated to the library in the 1980s.
+                </p>
+                <p>
+                  The 400-page typescript, written in the early 1960s but never
+                  published, represents a significant addition to the author's
+                  body of work and offers new insights into their creative
+                  development during a critical period between their most famous
+                  publications.
+                </p>
+                <p>
+                  "This is equivalent to finding a lost Shakespeare play," said
+                  Dr. Eleanor Hughes, professor of American literature at
+                  Princeton. "The manuscript is not a rough draft or fragment
+                  but a polished, complete work that for unknown reasons never
+                  made it to publication."
+                </p>
+                <p>
+                  Literary experts who have examined the manuscript describe it
+                  as thematically ambitious and stylistically distinctive,
+                  potentially bridging what scholars had previously considered
+                  disparate phases in the author's creative evolution.
+                </p>
+                <p>
+                  The author's estate has confirmed the authenticity of the
+                  manuscript and announced plans for its publication next year,
+                  with a portion of proceeds supporting literary archives and
+                  preservation efforts.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">PUBLISHING</div>
+                <h2 class="headline-md">
+                  Print Book Sales Surge Amid Digital Fatigue Trend
+                </h2>
+                <p class="byline">By ELIZABETH A. HARRIS</p>
+                <p>
+                  Print book sales have experienced their largest year-over-year
+                  increase in decades, with industry analysts attributing the
+                  trend to growing "digital fatigue" and renewed appreciation
+                  for the tactile experience of physical books.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">FICTION</div>
+                <h2 class="headline-md">
+                  Debut Novel by Unknown Author Becomes Global Phenomenon
+                </h2>
+                <p class="byline">By ALEXANDRA ALTER</p>
+                <p>
+                  A first novel by a previously unpublished author has become an
+                  international bestseller through word-of-mouth
+                  recommendations, with translation rights sold in 42 languages
+                  and a major film adaptation already in development.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">LITERARY PRIZES</div>
+                <h2 class="headline-md">
+                  Nobel Prize in Literature Awarded to Poet from Global South
+                </h2>
+                <p class="byline">By ALEX MARSHALL</p>
+                <p>
+                  The Swedish Academy has awarded the Nobel Prize in Literature
+                  to an acclaimed poet from the Global South, recognizing work
+                  that explores themes of cultural identity, environmental
+                  justice, and historical memory through innovative poetic
+                  forms.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More books stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">TECHNOLOGY</div>
+                <h2 class="headline-sm">
+                  Next-Generation E-Readers Transform Digital Reading Experience
+                </h2>
+                <p class="byline">By BRIAN X. CHEN</p>
+                <p>
+                  A new generation of electronic reading devices featuring
+                  paper-like color displays, adaptive lighting, and enhanced
+                  annotation capabilities is reinvigorating the e-book market
+                  and attracting readers who previously preferred print.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">LIBRARIES</div>
+                <h2 class="headline-sm">
+                  Public Libraries Expand into Community Technology Centers
+                </h2>
+                <p class="byline">By DAVID STREITFELD</p>
+                <p>
+                  Public libraries across the country are transforming into
+                  comprehensive community resource hubs offering advanced
+                  technology access, skills training, and creative production
+                  studios alongside traditional collections and services.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">MEMOIR</div>
+                <h2 class="headline-sm">
+                  Immersive Audio Memoirs Create New Form of Intimate
+                  Storytelling
+                </h2>
+                <p class="byline">By JENNIFER SCHUESSLER</p>
+                <p>
+                  A new approach to memoir combining professionally produced
+                  audio, ambient sound design, and interactive elements is
+                  establishing itself as a distinct storytelling medium that
+                  offers unique emotional and narrative possibilities.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Books reviews -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <h3 class="section-label text-xl mb-4">Book Reviews</h3>
+            </div>
+
+            <div class="col-span-6">
+              <div class="border-bottom-light pb-6 mb-6">
+                <h3 class="headline-md">
+                  'The Eternal Threshold' Reimagines Historical Fiction
+                </h3>
+                <p class="byline">Reviewed by MICHIKO KAKUTANI</p>
+                <div class="flex mt-4">
+                  <div class="w-1/3 pr-4">
+                    <img
+                      src="https://static01.nyt.com/images/2025/04/21/multimedia/21book-review1-ktpr/21book-review1-ktpr-superJumbo.jpg"
+                      alt="Book cover of The Eternal Threshold"
+                      class="w-full h-auto mb-3"
+                    />
+                  </div>
+                  <div class="w-2/3">
+                    <p>
+                      This masterful work blends historical precision with
+                      speculative elements to create an entirely new approach to
+                      historical fiction. Set across three distinct time
+                      periods, the novel weaves together narratives that
+                      ultimately reveal surprising connections between seemingly
+                      disparate characters and events.
+                    </p>
+                    <p class="mt-2">
+                      The author's command of both historical detail and
+                      imaginative storytelling creates a reading experience that
+                      is simultaneously intellectually stimulating and
+                      emotionally resonant, establishing a new benchmark for
+                      what historical fiction can achieve.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-span-6">
+              <div class="border-bottom-light pb-6 mb-6">
+                <h3 class="headline-md">
+                  'Quantum Memories' Explores Consciousness Through Science
+                  Fiction
+                </h3>
+                <p class="byline">Reviewed by PARUL SEHGAL</p>
+                <div class="flex mt-4">
+                  <div class="w-1/3 pr-4">
+                    <img
+                      src="https://static01.nyt.com/images/2025/04/21/multimedia/21book-review2-ktpr/21book-review2-ktpr-superJumbo.jpg"
+                      alt="Book cover of Quantum Memories"
+                      class="w-full h-auto mb-3"
+                    />
+                  </div>
+                  <div class="w-2/3">
+                    <p>
+                      This ambitious novel uses cutting-edge scientific concepts
+                      as both plot devices and metaphorical frameworks, creating
+                      a narrative that challenges conventional understandings of
+                      memory, identity, and consciousness.
+                    </p>
+                    <p class="mt-2">
+                      While the scientific elements might initially seem
+                      daunting, they're integrated so skillfully into the human
+                      drama that readers are drawn into profound questions about
+                      the nature of reality and perception without feeling
+                      overwhelmed by technical complexities.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Style Section -->
+        <div id="style-content" class="category-content">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">FASHION</div>
+              <h1 class="headline-lg">
+                Sustainable Fashion Takes Center Stage at Global Design Awards
+              </h1>
+              <p class="summary">
+                The fashion industry's most prestigious design awards have been
+                dominated by sustainable collections for the first time,
+                signaling a fundamental shift in the values driving high-end
+                fashion.
+              </p>
+              <p class="byline">By VANESSA FRIEDMAN and JESSICA TESTA</p>
+              <img
+                src="https://static01.nyt.com/images/2025/04/21/multimedia/21sustainable-fashion-ktpr/21sustainable-fashion-ktpr-superJumbo.jpg"
+                alt="Sustainable fashion designs on runway"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  In a watershed moment for the fashion industry, sustainable
+                  and ethically produced collections dominated this year's
+                  Global Design Excellence Awards, with the highest honors going
+                  to designers who have pioneered innovative approaches to
+                  environmentally responsible fashion.
+                </p>
+                <p>
+                  The winning collections featured ground-breaking materials
+                  including fabrics grown from agricultural waste, regenerative
+                  farming fibers, and textiles designed for complete
+                  biodegradability or efficient recycling at the end of their
+                  useful life.
+                </p>
+                <p>
+                  "This represents a tipping point for the industry," said
+                  Gabriela Hearst, who served on the awards jury.
+                  "Sustainability is no longer a niche consideration but the
+                  central criterion of excellence in fashion design."
+                </p>
+                <p>
+                  Unlike previous "eco-fashion" that often sacrificed aesthetic
+                  appeal for environmental credentials, the celebrated
+                  collections were praised for their sophisticated design
+                  sensibilities and luxurious qualities that rivaled or exceeded
+                  conventional materials.
+                </p>
+                <p>
+                  Major fashion conglomerates have taken notice, with several
+                  announcing significant investments in sustainable material
+                  development and commitments to transition their supply chains
+                  to environmentally responsible practices within five years.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">BEAUTY</div>
+                <h2 class="headline-md">
+                  Personalized Skincare Revolution Transforms Beauty Industry
+                </h2>
+                <p class="byline">By BEE SHAPIRO</p>
+                <p>
+                  Advanced diagnostic technologies and custom formulation
+                  capabilities are enabling truly personalized skincare
+                  solutions tailored to individual genetic profiles,
+                  microbiomes, and environmental factors, challenging
+                  traditional product categories.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">TRENDS</div>
+                <h2 class="headline-md">
+                  Digital Fashion Creates New Economy for Virtual Style
+                </h2>
+                <p class="byline">By IRIS VAN HERPEN</p>
+                <p>
+                  The market for digital-only fashion items has exploded as
+                  consumers invest in virtual wardrobes for their digital
+                  identities, with leading luxury brands and independent
+                  designers creating collections that exist solely in digital
+                  spaces.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">ACCESSORIES</div>
+                <h2 class="headline-md">
+                  Smart Jewelry Combines Fashion with Functional Technology
+                </h2>
+                <p class="byline">By KATHLEEN HOU</p>
+                <p>
+                  A new generation of wearable technology disguised as elegant
+                  jewelry is gaining popularity, offering health monitoring,
+                  security features, and digital connectivity in designs that
+                  prioritize aesthetic appeal alongside functionality.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More style stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">RETAIL</div>
+                <h2 class="headline-sm">
+                  Immersive Shopping Experiences Revitalize Physical Retail
+                </h2>
+                <p class="byline">By SAPNA MAHESHWARI</p>
+                <p>
+                  Innovative retailers are transforming brick-and-mortar stores
+                  with experiential elements, augmented reality features, and
+                  community-focused spaces that offer compelling reasons for
+                  consumers to visit physical locations.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">HERITAGE</div>
+                <h2 class="headline-sm">
+                  Cultural Heritage Inspires Contemporary Fashion Renaissance
+                </h2>
+                <p class="byline">By ELIZABETH PATON</p>
+                <p>
+                  Designers across the globe are drawing on their cultural
+                  heritage to create contemporary collections that celebrate
+                  traditional craftsmanship, textiles, and motifs while
+                  interpreting them through modern design sensibilities.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">INNOVATION</div>
+                <h2 class="headline-sm">
+                  Adaptive Fashion Movement Embraces Inclusive Design
+                </h2>
+                <p class="byline">By JESSICA TESTA</p>
+                <p>
+                  The adaptive fashion movement has gained significant momentum
+                  as mainstream brands and specialized designers create stylish
+                  clothing that accommodates diverse bodies and abilities
+                  without compromising on aesthetics.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Style feature -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <div class="section-label">PROFILES</div>
+              <h2 class="headline-md">
+                The New Fashion Visionaries Redefining Industry Standards
+              </h2>
+              <p class="byline">By VANESSA FRIEDMAN</p>
+              <div class="flex mt-4 flex-wrap">
+                <div class="w-1/3 pr-4 pb-4">
+                  <img
+                    src="https://static01.nyt.com/images/2025/04/21/multimedia/21fashion-visionary1-ktpr/21fashion-visionary1-ktpr-superJumbo.jpg"
+                    alt="Portrait of fashion designer"
+                    class="w-full h-auto mb-3"
+                  />
+                  <h3 class="headline-sm mb-2">The Material Innovator</h3>
+                  <p>
+                    Creating fabrics from agricultural waste and
+                    carbon-capturing algae, this biotech scientist turned
+                    designer is developing materials that actively benefit the
+                    environment during their lifecycle.
+                  </p>
+                </div>
+                <div class="w-1/3 pr-4 pb-4">
+                  <img
+                    src="https://static01.nyt.com/images/2025/04/21/multimedia/21fashion-visionary2-ktpr/21fashion-visionary2-ktpr-superJumbo.jpg"
+                    alt="Portrait of fashion designer"
+                    class="w-full h-auto mb-3"
+                  />
+                  <h3 class="headline-sm mb-2">The Supply Chain Reformer</h3>
+                  <p>
+                    Implementing blockchain transparency and worker-owned
+                    production facilities, this entrepreneur has created a
+                    revolutionary model for ethical manufacturing that's being
+                    adopted by major brands.
+                  </p>
+                </div>
+                <div class="w-1/3 pb-4">
+                  <img
+                    src="https://static01.nyt.com/images/2025/04/21/multimedia/21fashion-visionary3-ktpr/21fashion-visionary3-ktpr-superJumbo.jpg"
+                    alt="Portrait of fashion designer"
+                    class="w-full h-auto mb-3"
+                  />
+                  <h3 class="headline-sm mb-2">The Digital Pioneer</h3>
+                  <p>
+                    Blurring the boundaries between physical and digital
+                    fashion, this designer creates pieces that exist
+                    simultaneously as tangible garments and as digital Blurring
+                    the boundaries between physical and digital fashion, this
+                    designer creates pieces that exist simultaneously as
+                    tangible garments and as digital assets, pioneering a new
+                    era where fashion exists fluidly between real and virtual
+                    worlds.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Food Section -->
+        <div id="food-content" class="category-content">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">CULINARY INNOVATION</div>
+              <h1 class="headline-lg">
+                Sustainable Cuisine Movement Transforms Restaurant Industry
+              </h1>
+              <p class="summary">
+                A growing coalition of renowned chefs, food scientists, and
+                farmers is revolutionizing fine dining with zero-waste
+                practices, regenerative agriculture partnerships, and circular
+                food systems.
+              </p>
+              <p class="byline">By PETE WELLS and KIM SEVERSON</p>
+              <img
+                src="https://static01.nyt.com/images/2025/04/21/multimedia/21sustainable-cuisine-ktpr/21sustainable-cuisine-ktpr-superJumbo.jpg"
+                alt="Chef working with sustainable ingredients"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  A culinary revolution centered on environmental sustainability
+                  and ethical food systems is reshaping fine dining, with
+                  leading restaurants around the world adopting radical
+                  approaches to sourcing, preparation, and waste management.
+                </p>
+                <p>
+                  The movement goes far beyond superficial "farm-to-table"
+                  marketing, establishing comprehensive systems that eliminate
+                  waste, regenerate natural resources, and create closed-loop
+                  relationships between restaurants, farms, and communities.
+                </p>
+                <p>
+                  "We're fundamentally reimagining what a restaurant can be,"
+                  explained Chef Maria Rodriguez, whose acclaimed establishment
+                  operates with zero food waste and generates more renewable
+                  energy than it consumes. "Every decision—from ingredients to
+                  energy use to packaging—is viewed through an ecological lens."
+                </p>
+                <p>
+                  These pioneering restaurants have developed innovative
+                  techniques for utilizing ingredients in their entirety,
+                  transforming traditional "waste" products into culinary
+                  highlights through fermentation, preservation, and creative
+                  repurposing.
+                </p>
+                <p>
+                  Perhaps most significantly, these sustainability-focused
+                  restaurants are proving that ecological responsibility can
+                  coexist with extraordinary culinary experiences, earning
+                  critical acclaim and attracting diners willing to support
+                  their higher operational standards.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">NUTRITION</div>
+                <h2 class="headline-md">
+                  Personalized Nutrition Science Creates Custom Diet Plans
+                </h2>
+                <p class="byline">By ANAHAD O'CONNOR</p>
+                <p>
+                  Advances in microbiome research, metabolic analysis, and
+                  genetic testing are enabling precisely tailored nutritional
+                  recommendations that account for individual biological
+                  differences in how people process and respond to different
+                  foods.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">AGRICULTURE</div>
+                <h2 class="headline-md">
+                  Vertical Farming Scales Up to Transform Urban Food Systems
+                </h2>
+                <p class="byline">By KIM SEVERSON</p>
+                <p>
+                  Large-scale vertical farming operations are expanding in major
+                  urban centers, producing significant quantities of fresh
+                  produce with minimal water usage, no pesticides, and
+                  drastically reduced transportation distances to consumers.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">BEVERAGES</div>
+                <h2 class="headline-md">
+                  Non-Alcoholic Craft Beverages Experience Explosive Growth
+                </h2>
+                <p class="byline">By ERIC ASIMOV</p>
+                <p>
+                  Sophisticated non-alcoholic beverages crafted with the same
+                  attention to complexity, terroir, and technique as fine wines
+                  and spirits have created an entirely new beverage category
+                  that's growing rapidly in restaurants and specialty retail.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More food stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">TRADITIONS</div>
+                <h2 class="headline-sm">
+                  Cultural Food Heritage Preservation Gains Global Support
+                </h2>
+                <p class="byline">By PRIYA KRISHNA</p>
+                <p>
+                  A worldwide movement to document, preserve, and revitalize
+                  traditional culinary techniques, indigenous ingredients, and
+                  cultural food knowledge is gaining momentum as communities
+                  work to maintain their gastronomic heritage.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">TECHNOLOGY</div>
+                <h2 class="headline-sm">
+                  Kitchen AI Systems Transform Home Cooking Experience
+                </h2>
+                <p class="byline">By MELISSA CLARK</p>
+                <p>
+                  Smart kitchen systems that combine computer vision,
+                  temperature sensing, and artificial intelligence are making
+                  advanced cooking techniques accessible to home cooks by
+                  providing real-time guidance and automatic adjustments during
+                  meal preparation.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">GLOBAL CUISINE</div>
+                <h2 class="headline-sm">
+                  Regional Chinese Culinary Traditions Gain International
+                  Recognition
+                </h2>
+                <p class="byline">By TEJAL RAO</p>
+                <p>
+                  Distinct regional Chinese cuisines previously underrepresented
+                  in global dining are experiencing newfound appreciation as
+                  specialized restaurants showcase the remarkable diversity and
+                  sophistication of traditions from specific provinces.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recipe feature -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <div class="section-label">SEASONAL COOKING</div>
+              <h2 class="headline-md">
+                Spring Harvest: Celebrating Seasonal Produce at Its Peak
+              </h2>
+              <p class="byline">By MELISSA CLARK</p>
+              <div class="flex mt-4">
+                <div class="w-1/2 pr-4">
+                  <img
+                    src="https://static01.nyt.com/images/2025/04/21/multimedia/21spring-recipes-ktpr/21spring-recipes-ktpr-superJumbo.jpg"
+                    alt="Spring vegetables and prepared dishes"
+                    class="w-full h-auto mb-3"
+                  />
+                </div>
+                <div class="w-1/2">
+                  <p class="summary mb-4">
+                    Spring's fleeting harvest offers some of the year's most
+                    prized ingredients—tender vegetables and vibrant herbs that
+                    require minimal preparation to shine.
+                  </p>
+                  <p>
+                    These recipes highlight the exceptional quality of
+                    peak-season produce through simple preparations that enhance
+                    rather than mask their natural flavors. From asparagus and
+                    spring peas to tender lettuces and new potatoes, these
+                    dishes celebrate the essence of springtime cooking.
+                  </p>
+                  <p class="mt-4">
+                    "There's something magical about these first harvests after
+                    winter," says chef David Chang. "The flavors are so vibrant
+                    and distinct that the best approach is to let the
+                    ingredients speak for themselves with minimal intervention."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Travel Section -->
+        <div id="travel-content" class="category-content">
+          <div class="nyt-grid">
+            <!-- Lead story -->
+            <div class="col-span-8">
+              <div class="section-label">SUSTAINABLE TOURISM</div>
+              <h1 class="headline-lg">
+                Regenerative Travel Movement Redefines Tourism Industry
+              </h1>
+              <p class="summary">
+                A growing segment of the tourism industry is moving beyond
+                sustainability to embrace "regenerative travel" that actively
+                improves environmental conditions and benefits local
+                communities.
+              </p>
+              <p class="byline">By SETH KUGEL and SEBASTIAN MODAK</p>
+              <img
+                src="https://static01.nyt.com/images/2025/04/21/multimedia/21regenerative-travel-ktpr/21regenerative-travel-ktpr-superJumbo.jpg"
+                alt="Eco-friendly travel destination with local community involvement"
+                class="main-image"
+              />
+              <div class="article-content">
+                <p>
+                  A paradigm shift is underway in the tourism industry as
+                  forward-thinking operators, destinations, and travelers
+                  embrace an approach that goes beyond minimizing negative
+                  impacts to actively regenerating environments and
+                  strengthening communities.
+                </p>
+                <p>
+                  This "regenerative travel" movement represents a fundamental
+                  reimagining of tourism's potential to address environmental
+                  and social challenges while still delivering meaningful travel
+                  experiences.
+                </p>
+                <p>
+                  "The question has evolved from 'how can we do less harm?' to
+                  'how can travel be a force for positive transformation?'"
+                  explained Maria Gonzalez, founder of the Regenerative Travel
+                  Consortium. "We're designing experiences that leave
+                  destinations better than we found them."
+                </p>
+                <p>
+                  Pioneering initiatives include coral reef restoration projects
+                  where travelers participate in marine conservation work,
+                  reforestation programs that strategically rebuild wildlife
+                  corridors, and cultural heritage preservation efforts led by
+                  indigenous communities.
+                </p>
+                <p>
+                  Tourism industry analysts note that demand for these
+                  regenerative experiences has grown exponentially, particularly
+                  among affluent travelers willing to pay premium prices for
+                  vacations that align with their environmental and social
+                  values.
+                </p>
+              </div>
+            </div>
+
+            <!-- Secondary stories -->
+            <div class="col-span-4">
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">TRANSPORTATION</div>
+                <h2 class="headline-md">
+                  High-Speed Rail Network Expands Across Europe and Asia
+                </h2>
+                <p class="byline">By ELAINE GLUSAC</p>
+                <p>
+                  The global high-speed rail network continues its rapid
+                  expansion with new routes connecting major cities across
+                  Europe and Asia, offering travelers efficient and low-carbon
+                  alternatives to short-haul flights for journeys under 1,000
+                  kilometers.
+                </p>
+              </div>
+
+              <div class="border-bottom-light pb-6 mb-6">
+                <div class="section-label">DESTINATIONS</div>
+                <h2 class="headline-md">
+                  Cultural Heritage Sites Implement Innovative Visitor
+                  Management
+                </h2>
+                <p class="byline">By STEPHANIE ROSENBLOOM</p>
+                <p>
+                  Historic sites and cultural destinations worldwide are
+                  adopting sophisticated visitor management systems that protect
+                  fragile environments while enhancing visitor experiences
+                  through timed entries, virtual queues, and dynamic capacity
+                  controls.
+                </p>
+              </div>
+
+              <div class="pb-6 mb-6">
+                <div class="section-label">TECHNOLOGY</div>
+                <h2 class="headline-md">
+                  Immersive AR Travel Guides Transform Exploration
+                </h2>
+                <p class="byline">By GEOFFREY MORRISON</p>
+                <p>
+                  Advanced augmented reality applications are revolutionizing
+                  how travelers experience destinations, offering historically
+                  accurate reconstructions of ancient sites, cultural context
+                  for landmarks, and personalized discovery paths based on
+                  individual interests.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- More travel stories -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">ACCOMMODATIONS</div>
+                <h2 class="headline-sm">
+                  Architectural Heritage Buildings Transformed into Luxury
+                  Hotels
+                </h2>
+                <p class="byline">By SARAH FIRSHEIN</p>
+                <p>
+                  Historic buildings including former banks, post offices, and
+                  industrial facilities are finding new life as distinctive
+                  luxury hotels that preserve architectural heritage while
+                  creating unique hospitality experiences rooted in local
+                  culture.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">CULINARY TOURISM</div>
+                <h2 class="headline-sm">
+                  Food Sovereignty Tours Connect Travelers with Indigenous
+                  Cuisine
+                </h2>
+                <p class="byline">By ROBERT SIMONSON</p>
+                <p>
+                  A new category of culinary tourism focused on indigenous food
+                  systems is enabling travelers to learn directly from native
+                  communities about traditional ingredients, preparation
+                  methods, and the cultural significance of regional cuisines.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="pb-6 mb-6">
+                <div class="section-label">ADVENTURE</div>
+                <h2 class="headline-sm">
+                  Previously Inaccessible Destinations Open to Responsible
+                  Tourism
+                </h2>
+                <p class="byline">By TARIRO MZEZEWA</p>
+                <p>
+                  Remote regions previously challenging to access are developing
+                  carefully managed tourism programs that balance ecological
+                  protection with economic opportunities for local communities
+                  through strictly controlled visitor numbers and extensive
+                  guide training.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Travel photo feature -->
+          <div class="nyt-grid mt-10 border-top-light pt-8">
+            <div class="col-span-12">
+              <div class="section-label">PHOTO ESSAY</div>
+              <h2 class="headline-md">
+                The World's Most Extraordinary Railway Journeys
+              </h2>
+              <p class="byline">By SEBASTIAN MODAK</p>
+              <div class="flex flex-wrap mt-4">
+                <div class="w-1/3 pr-4 mb-4">
+                  <img
+                    src="https://static01.nyt.com/images/2025/04/21/multimedia/21train-journey1-ktpr/21train-journey1-ktpr-superJumbo.jpg"
+                    alt="Luxury train crossing mountainous landscape"
+                    class="w-full h-auto mb-2"
+                  />
+                  <h3 class="text-lg font-bold">The Alpine Explorer</h3>
+                  <p class="text-sm">
+                    This engineering marvel winds through the Alps with
+                    panoramic cars offering 360-degree views of Europe's most
+                    spectacular mountain landscapes.
+                  </p>
+                </div>
+                <div class="w-1/3 pr-4 mb-4">
+                  <img
+                    src="https://static01.nyt.com/images/2025/04/21/multimedia/21train-journey2-ktpr/21train-journey2-ktpr-superJumbo.jpg"
+                    alt="Train alongside coastal scenery"
+                    class="w-full h-auto mb-2"
+                  />
+                  <h3 class="text-lg font-bold">The Coastal Passage</h3>
+                  <p class="text-sm">
+                    Hugging dramatic coastlines for nearly 1,000 kilometers,
+                    this route offers uninterrupted views of pristine beaches,
+                    cliff formations, and marine wildlife.
+                  </p>
+                </div>
+                <div class="w-1/3 mb-4">
+                  <img
+                    src="https://static01.nyt.com/images/2025/04/21/multimedia/21train-journey3-ktpr/21train-journey3-ktpr-superJumbo.jpg"
+                    alt="Historic train through desert landscape"
+                    class="w-full h-auto mb-2"
+                  />
+                  <h3 class="text-lg font-bold">The Desert Crosser</h3>
+                  <p class="text-sm">
+                    This historic route traverses vast desert landscapes,
+                    connecting ancient trading cities with stops at oases and
+                    archaeological sites rarely accessible by other means.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 pt-10 pb-16">
+      <div class="nyt-container">
+        <div class="nyt-grid">
+          <div class="col-span-12 border-bottom-light pb-6 mb-6">
+            <h1 class="nyt-logo text-3xl mb-4">The New York Times</h1>
+            <div class="grid grid-cols-4 gap-4">
+              <div>
+                <h3 class="footer-heading">NEWS</h3>
+                <div class="mb-4">
+                  <a href="#" class="footer-link">Home Page</a>
+                  <a href="#" class="footer-link">World</a>
+                  <a href="#" class="footer-link">U.S.</a>
+                  <a href="#" class="footer-link">Politics</a>
+                  <a href="#" class="footer-link">Election 2024</a>
+                  <a href="#" class="footer-link">New York</a>
+                  <a href="#" class="footer-link">Business</a>
+                  <a href="#" class="footer-link">Tech</a>
+                  <a href="#" class="footer-link">Science</a>
+                  <a href="#" class="footer-link">Sports</a>
+                  <a href="#" class="footer-link">Obituaries</a>
+                </div>
+              </div>
+              <div>
+                <h3 class="footer-heading">OPINION</h3>
+                <div class="mb-4">
+                  <a href="#" class="footer-link">Today's Opinion</a>
+                  <a href="#" class="footer-link">Columnists</a>
+                  <a href="#" class="footer-link">Editorials</a>
+                  <a href="#" class="footer-link">Guest Essays</a>
+                  <a href="#" class="footer-link">Letters</a>
+                  <a href="#" class="footer-link">Sunday Opinion</a>
+                  <a href="#" class="footer-link">Opinion Video</a>
+                </div>
+
+                <h3 class="footer-heading mt-6">ARTS</h3>
+                <div class="mb-4">
+                  <a href="#" class="footer-link">Today's Arts</a>
+                  <a href="#" class="footer-link">Art & Design</a>
+                  <a href="#" class="footer-link">Books</a>
+                  <a href="#" class="footer-link">Dance</a>
+                  <a href="#" class="footer-link">Movies</a>
+                  <a href="#" class="footer-link">Music</a>
+                  <a href="#" class="footer-link">Television</a>
+                  <a href="#" class="footer-link">Theater</a>
+                </div>
+              </div>
+              <div>
+                <h3 class="footer-heading">LIVING</h3>
+                <div class="mb-4">
+                  <a href="#" class="footer-link">Automotive</a>
+                  <a href="#" class="footer-link">Games</a>
+                  <a href="#" class="footer-link">Education</a>
+                  <a href="#" class="footer-link">Food</a>
+                  <a href="#" class="footer-link">Health</a>
+                  <a href="#" class="footer-link">Jobs</a>
+                  <a href="#" class="footer-link">Love</a>
+                  <a href="#" class="footer-link">Magazine</a>
+                  <a href="#" class="footer-link">Parenting</a>
+                  <a href="#" class="footer-link">Real Estate</a>
+                  <a href="#" class="footer-link">Style</a>
+                  <a href="#" class="footer-link">T Magazine</a>
+                  <a href="#" class="footer-link">Travel</a>
+                </div>
+              </div>
+              <div>
+                <h3 class="footer-heading">MORE</h3>
+                <div class="mb-4">
+                  <a href="#" class="footer-link">Reader Center</a>
+                  <a href="#" class="footer-link">The Athletic</a>
+                  <a href="#" class="footer-link">Wirecutter</a>
+                  <a href="#" class="footer-link">Cooking</a>
+                  <a href="#" class="footer-link">Headway</a>
+                  <a href="#" class="footer-link">Live Events</a>
+                  <a href="#" class="footer-link">The Learning Network</a>
+                  <a href="#" class="footer-link">Tools & Services</a>
+                  <a href="#" class="footer-link">Podcasts</a>
+                  <a href="#" class="footer-link">Video</a>
+                  <a href="#" class="footer-link">Graphics</a>
+                  <a href="#" class="footer-link">TimesMachine</a>
+                  <a href="#" class="footer-link">NYT Store</a>
+                  <a href="#" class="footer-link">Manage My Account</a>
+                  <a href="#" class="footer-link">NYTLicensing</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-span-12 mt-4">
+            <div class="grid grid-cols-12 gap-4">
+              <div class="col-span-7">
+                <div class="text-sm text-gray-500">
+                  © 2025 The New York Times Company
+                </div>
+              </div>
+              <div class="col-span-5">
+                <div class="flex justify-end space-x-4">
+                  <a href="#" class="text-sm text-gray-500 hover:underline"
+                    >NYTCo</a
+                  >
+                  <a href="#" class="text-sm text-gray-500 hover:underline"
+                    >Contact Us</a
+                  >
+                  <a href="#" class="text-sm text-gray-500 hover:underline"
+                    >Accessibility</a
+                  >
+                  <a href="#" class="text-sm text-gray-500 hover:underline"
+                    >Work with us</a
+                  >
+                  <a href="#" class="text-sm text-gray-500 hover:underline"
+                    >Advertise</a
+                  >
+                  <a href="#" class="text-sm text-gray-500 hover:underline"
+                    >T Brand Studio</a
+                  >
+                  <a href="#" class="text-sm text-gray-500 hover:underline"
+                    >Your Ad Choices</a
+                  >
+                  <a href="#" class="text-sm text-gray-500 hover:underline"
+                    >Privacy Policy</a
+                  >
+                  <a href="#" class="text-sm text-gray-500 hover:underline"
+                    >Terms of Service</a
+                  >
+                  <a href="#" class="text-sm text-gray-500 hover:underline"
+                    >Terms of Sale</a
+                  >
+                  <a href="#" class="text-sm text-gray-500 hover:underline"
+                    >Site Map</a
+                  >
+                  <a href="#" class="text-sm text-gray-500 hover:underline"
+                    >Help</a
+                  >
+                  <a href="#" class="text-sm text-gray-500 hover:underline"
+                    >Subscriptions</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Current date display
+      document.addEventListener("DOMContentLoaded", function () {
+        const DateTime = luxon.DateTime;
+        const now = DateTime.now();
+        const formattedDate = now.toFormat("EEEE, MMMM d, yyyy");
+        document.getElementById("current-date").textContent = formattedDate;
+
+        // Hamburger menu toggle
+        const hamburger = document.getElementById("hamburger-menu");
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("overlay");
+        const closeBtn = document.getElementById("close-sidebar");
+
+        hamburger.addEventListener("click", function () {
+          sidebar.classList.add("open");
+          overlay.style.display = "block";
+          document.body.style.overflow = "hidden";
+        });
+
+        function closeSidebar() {
+          sidebar.classList.remove("open");
+          overlay.style.display = "none";
+          document.body.style.overflow = "";
+        }
+
+        closeBtn.addEventListener("click", closeSidebar);
+        overlay.addEventListener("click", closeSidebar);
+
+        // News Verification Popup
+        const verifyButton = document.getElementById("verify-button");
+        const verifyPopup = document.getElementById("verify-popup");
+        const verifyPopupClose = document.getElementById("verify-popup-close");
+        const verifyForm = document.getElementById("verify-form");
+        const verifyInput = document.getElementById("verify-input");
+        const verifyLoader = document.getElementById("verify-loader");
+        const verifyResult = document.getElementById("verify-result");
+        const verifyIndicator = document.getElementById("verify-indicator");
+        const verifyText = document.getElementById("verify-text");
+        const verifySources = document.getElementById("verify-sources");
+
+        verifyButton.addEventListener("click", function () {
+          verifyPopup.style.display = "block";
+          overlay.style.display = "block";
+          document.body.style.overflow = "hidden";
+          verifyInput.focus();
+        });
+
+        verifyPopupClose.addEventListener("click", function () {
+          verifyPopup.style.display = "none";
+          overlay.style.display = "none";
+          document.body.style.overflow = "";
+        });
+
+        verifyForm.addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const query = verifyInput.value.trim();
+          if (!query) return;
+
+          // Show loading state
+          verifyLoader.style.display = "block";
+          verifyResult.style.display = "none";
+
+          try {
+            // Call to Groq API for real-time information
+            const response = await fetch(
+              "https://api.groq.com/openai/v1/chat/completions",
+              {
+                method: "POST",
+                headers: {
+                  Authorization:
+
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  model: "llama3-70b-8192",
+                  messages: [
+                    {
+                      role: "system",
+                      content: `You are a news verification assistant for The New York Times.
+                    Analyze the following query about current events or people and provide:
+                    1. Whether the information is factual (true), false, or needs clarification
+                    2. A concise, factual explanation with relevant context
+                    3. Include appropriate emojis to make the response engaging
+                    4. Suggested reliable sources where possible
+
+                    Format your response as JSON with these fields:
+                    {
+                      "verified": boolean or null if uncertain,
+                      "text": "your factual analysis with emojis and context",
+                      "sources": [{"name": "Source Name", "url": "https://source.url"}]
+                    }`,
+                    },
+                    {
+                      role: "user",
+                      content: query,
+                    },
+                  ],
+                  temperature: 0.2,
+                  max_tokens: 800,
+                }),
+              }
+            );
+
+            const data = await response.json();
+
+            // Parse the AI response
+            let resultObject;
+            try {
+              // Extract the JSON object from the AI's response text
+              const resultText = data.choices[0].message.content;
+              const jsonMatch = resultText.match(/\{[\s\S]*\}/);
+
+              if (jsonMatch) {
+                resultObject = JSON.parse(jsonMatch[0]);
+              } else {
+                // Fallback parsing if the AI didn't return proper JSON
+                resultObject = {
+                  verified: null,
+                  text: resultText,
+                  sources: [],
+                };
+
+                // Set verification status based on text content
+                if (
+                  resultText.toLowerCase().includes("true") ||
+                  resultText.toLowerCase().includes("verified")
+                ) {
+                  resultObject.verified = true;
+                } else if (
+                  resultText.toLowerCase().includes("false") ||
+                  resultText.toLowerCase().includes("incorrect")
+                ) {
+                  resultObject.verified = false;
+                }
+              }
+            } catch (parseError) {
+              console.error("Error parsing AI response:", parseError);
+              resultObject = {
+                verified: null,
+                text: data.choices[0].message.content,
+                sources: [],
+              };
+            }
+
+            // Update UI with result
+            verifyLoader.style.display = "none";
+            verifyResult.style.display = "block";
+
+            if (resultObject.verified === true) {
+              verifyIndicator.innerHTML = "✅ Verified Information:";
+            } else if (resultObject.verified === false) {
+              verifyIndicator.innerHTML = "❌ False Information:";
+            } else {
+              verifyIndicator.innerHTML = "⚠️ Needs Clarification:";
+            }
+
+            verifyText.innerHTML = resultObject.text;
+
+            // Add sources
+            if (resultObject.sources && resultObject.sources.length > 0) {
+              verifySources.innerHTML =
+                "<strong>Sources:</strong><br>" +
+                resultObject.sources
+                  .map(
+                    (source) =>
+                      `- <a href="${source.url}" target="_blank" style="color: var(--color-blue);">${source.name}</a>`
+                  )
+                  .join("<br>");
+            } else {
+              verifySources.innerHTML = "";
+            }
+          } catch (error) {
+            console.error("Error verifying news:", error);
+            verifyLoader.style.display = "none";
+            verifyResult.style.display = "block";
+            verifyIndicator.innerHTML = "❌ Error:";
+            verifyText.textContent =
+              "There was an error processing your request. Please try again.";
+            verifySources.innerHTML = "";
+          }
+        });
+
+        // Category switching functionality
+        const categoryLinks = document.querySelectorAll("[data-category]");
+        const categoryContents = document.querySelectorAll(".category-content");
+
+        categoryLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            // Get the category from the clicked link
+            const category = this.getAttribute("data-category");
+
+            // Remove active class from all links
+            categoryLinks.forEach((link) => {
+              link.classList.remove("active");
+            });
+
+            // Add active class to clicked link
+            this.classList.add("active");
+
+            // Hide all category contents
+            categoryContents.forEach((content) => {
+              content.classList.remove("active");
+            });
+
+            // Show the selected category content
+            const targetContent = document.getElementById(
+              category + "-content"
+            );
+            if (targetContent) {
+              targetContent.classList.add("active");
+            } else if (category === "home") {
+              document.getElementById("home-content").classList.add("active");
+            }
+
+            // Close sidebar if open (for mobile)
+            if (sidebar.classList.contains("open")) {
+              closeSidebar();
+            }
+          });
+        });
+
+        // Sticky header implementation
+        const header = document.querySelector("header");
+        const masthead = document.querySelector(".nyt-logo").parentElement;
+        let mastheadHeight = masthead.offsetHeight;
+        let lastScrollY = window.scrollY;
+
+        function handleScroll() {
+          const currentScrollY = window.scrollY;
+
+          if (currentScrollY > mastheadHeight && currentScrollY > lastScrollY) {
+            // Scrolling down past the masthead
+            header.classList.add(
+              "fixed",
+              "top-0",
+              "left-0",
+              "right-0",
+              "bg-white",
+              "z-40"
+            );
+            document.body.style.paddingTop = header.offsetHeight + "px";
+          } else if (
+            currentScrollY < lastScrollY &&
+            currentScrollY < mastheadHeight
+          ) {
+            // Scrolling up to the top
+            header.classList.remove(
+              "fixed",
+              "top-0",
+              "left-0",
+              "right-0",
+              "bg-white",
+              "z-40"
+            );
+            document.body.style.paddingTop = "0";
+          }
+
+          lastScrollY = currentScrollY;
+        }
+
+        // Uncomment to enable sticky header
+        // window.addEventListener('scroll', handleScroll);
+
+        // Weather API simulation (would normally fetch from an API)
+        function updateWeather() {
+          // This would be replaced with actual API call
+          const temperatures = [65, 67, 63, 68, 70, 64];
+          const randomTemp =
+            temperatures[Math.floor(Math.random() * temperatures.length)];
+          document.querySelector(
+            ".weather-temp"
+          ).textContent = `${randomTemp}°F`;
+        }
+
+        updateWeather();
+
+        // Article timestamps
+        function updateTimestamps() {
+          const now = DateTime.now();
+          const timestamps = document.querySelectorAll(".time-stamp");
+
+          timestamps.forEach((stamp) => {
+            if (!stamp.dataset.fixed) {
+              const minutesAgo = Math.floor(Math.random() * 120);
+              const timeText =
+                minutesAgo <= 0
+                  ? "Just now"
+                  : minutesAgo === 1
+                  ? "1 minute ago"
+                  : `${minutesAgo} minutes ago`;
+
+              if (stamp.id !== "current-date") {
+                stamp.textContent = timeText;
+              }
+            }
+          });
+        }
+
+
+      });
+    </script>
+  </body>
+</html>
